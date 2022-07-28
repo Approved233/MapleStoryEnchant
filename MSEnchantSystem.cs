@@ -17,6 +17,7 @@ using MSEnchant.UI.Window;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -159,23 +160,23 @@ public class MSEnchantSystem : ModSystem
 
             if (!scrollItem.CanApplyTo(mouseItem))
             {
-                State.ShowNoticeCenter("无法使用卷轴的物品。");
+                State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.InvalidItem"));
                 return;
             }
 
-            State.ShowNoticeYesNoCenter($"你要在{mouseItem.Name}上使用{scrollItemVanilla.Name}吗？", () =>
+            State.ShowNoticeYesNoCenter(Language.GetTextValue("Mods.MSEnchant.UIText.StarScrollConsumeQuestion", mouseItem.Name, scrollItemVanilla.Name), () =>
             {
                 if (!Main.LocalPlayer.FindItemInInventory(scrollItemVanilla) ||
                     !Main.LocalPlayer.FindItemInInventory(mouseItem))
                 {
-                    State.ShowNoticeCenter("正在处理别的请求。\n请稍后再试。");
+                    State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.ProcessingActions"));
                     return;
                 }
 
                 var result = scrollItem.ApplyTo(mouseItem);
                 if (result == StarForceScrollResult.NoResult)
                 {
-                    State.ShowNoticeCenter("无法使用卷轴的物品。");
+                    State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.InvalidItem"));
                     return;
                 }
 
@@ -195,12 +196,7 @@ public class MSEnchantSystem : ModSystem
                     _ => null
                 };
 
-                var hint = result switch
-                {
-                    StarForceScrollResult.Success => $"{scrollItemVanilla.Name}亮了一下，有一股神秘的力量传到了{mouseItem.Name}上。",
-                    StarForceScrollResult.Failed => $"{scrollItemVanilla.Name}亮了一下，{mouseItem.Name}没有任何变化",
-                    _ => null
-                };
+                var hint = Language.GetTextValue($"Mods.MSEnchant.UIText.ScrollResult_{result}", scrollItemVanilla.Name, mouseItem.Name);
 
                 if (sound != null)
                     SoundEngine.PlaySound(new SoundStyle(sound), Main.LocalPlayer.position);

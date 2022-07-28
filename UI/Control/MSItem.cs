@@ -35,7 +35,7 @@ public class MSItem : MSElement
 
     public MSItem(float width, float height, float left = 0f, float top = 0f) : base(left, top)
     {
-        Shadow = ModContent.Request<Texture2D>("MSEnchant/Assets/Item.shadow", AssetRequestMode.ImmediateLoad);
+        Shadow = "Item.shadow".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
         MaxWidth.Set(width, 0f);
         MaxHeight.Set(height, 0f);
         Width.Set(MaxWidth.Pixels, 0f);

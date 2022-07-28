@@ -63,8 +63,6 @@ public class StarItem : ModItem
 
     public override void SetStaticDefaults()
     {
-        DisplayName.SetDefault("星星");
-        Tooltip.SetDefault("可以为已消耗所有可升级次数的\n装备注入星之力，提高星星等级。");
         CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
     }
 }

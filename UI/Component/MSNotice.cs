@@ -71,15 +71,15 @@ public class MSNotice : MSElement
     {
         AlwaysTop = true;
 
-        TopTexture = ModContent.Request<Texture2D>($"{texture}.t", AssetRequestMode.ImmediateLoad);
-        ContentTexture = ModContent.Request<Texture2D>($"{texture}.c", AssetRequestMode.ImmediateLoad);
-        BottomTexture = ModContent.Request<Texture2D>($"{texture}.s", AssetRequestMode.ImmediateLoad);
-        BoxTopTexture = ModContent.Request<Texture2D>($"{texture}.c_box", AssetRequestMode.ImmediateLoad);
-        BoxContentTexture = ModContent.Request<Texture2D>($"{texture}.box", AssetRequestMode.ImmediateLoad);
-        BoxBottomTexture = ModContent.Request<Texture2D>($"{texture}.s_box", AssetRequestMode.ImmediateLoad);
+        TopTexture = $"{texture}.t".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        ContentTexture = $"{texture}.c".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        BottomTexture = $"{texture}.s".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        BoxTopTexture = $"{texture}.c_box".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        BoxContentTexture = $"{texture}.box".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        BoxBottomTexture = $"{texture}.s_box".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
 
-        Append(ConfirmButton = new MSButton("MSEnchant/Assets/BtOK4"));
-        Append(CancelButton = new MSButton("MSEnchant/Assets/BtCancel4"));
+        Append(ConfirmButton = new MSButton("BtOK4"));
+        Append(CancelButton = new MSButton("BtCancel4"));
         Append(ContentText = new MSMultiLineText(content));
 
         ConfirmButton.OnClick += (evt, element) =>

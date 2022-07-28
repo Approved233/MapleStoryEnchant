@@ -20,10 +20,10 @@ public class MSCheckBox : MSElement
 
     public MSCheckBox(string texture, float left = 0f, float top = 0f) : base(left, top)
     {
-        _nonCheckedTexture = ModContent.Request<Texture2D>($"{texture}.0", AssetRequestMode.ImmediateLoad);
-        _checkedTexture = ModContent.Request<Texture2D>($"{texture}.1", AssetRequestMode.ImmediateLoad);
-        ModContent.RequestIfExists($"{texture}.2", out _disabledNonCheckedTexture);
-        ModContent.RequestIfExists($"{texture}.3", out _disabledCheckedTexture);
+        _nonCheckedTexture = $"{texture}.0".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        _checkedTexture = $"{texture}.1".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        $"{texture}.2".LoadLocaleTextureIfExists(out _disabledNonCheckedTexture);
+        $"{texture}.3".LoadLocaleTextureIfExists(out _disabledCheckedTexture);
         Width.Set(_nonCheckedTexture.Width(), 0.0f);
         Height.Set(_nonCheckedTexture.Height(), 0.0f);
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MSEnchant.Helper;
 using MSEnchant.UI.Control;
 using ReLogic.Content;
 using Terraria;
@@ -18,8 +19,8 @@ public class MiniGameGaugeBar : UIElement
     public MiniGameGaugeBar(string texture)
     {
         BaseTexturePath = texture;
-        InnerTexture = ModContent.Request<Texture2D>($"{BaseTexturePath}.0", AssetRequestMode.ImmediateLoad);
-        OuterTexture = ModContent.Request<Texture2D>($"{BaseTexturePath}.1", AssetRequestMode.ImmediateLoad);
+        InnerTexture = $"{BaseTexturePath}.0".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        OuterTexture = $"{BaseTexturePath}.1".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
 
         GaugeOuterStart = new MSImage(OuterTexture);
         Append(GaugeOuterStart);
@@ -46,21 +47,21 @@ public class MiniGameGaugeBar : UIElement
         GaugeOuterStart.Left.Set(-(GaugeWidth / 2f), 0f);
         GaugeOuterEnd.Left.Set(GaugeWidth / 2f, 0f);
         GaugeInner.ImageScale = new Vector2(GaugeWidth / InnerTexture.Width(), 1f);
-        
+
         Recalculate();
 
         base.Update(gameTime);
     }
 
-    public Vector2 SuccessZoneStart => GaugeOuterStart.GetDimensions().Position() + new Vector2(GaugeOuterStart.Width.Pixels, GaugeOuterStart.Height.Pixels);
+    public Vector2 SuccessZoneStart => GaugeOuterStart.GetDimensions().Position() +
+                                       new Vector2(GaugeOuterStart.Width.Pixels, GaugeOuterStart.Height.Pixels);
 
     public Vector2 SuccessZoneEnd => SuccessZoneStart + new Vector2(GaugeInner.Width.Pixels, GaugeInner.Height.Pixels);
-    
+
     public bool InSuccessZone(Vector2 point)
     {
         var start = SuccessZoneStart;
         var end = SuccessZoneEnd;
         return point.X > start.X && point.X < end.X;
     }
-
 }

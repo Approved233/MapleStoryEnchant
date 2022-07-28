@@ -3,12 +3,13 @@ using MSEnchant.Helper;
 using MSEnchant.UI.Control;
 using MSEnchant.UI.State;
 using Terraria;
+using Terraria.Localization;
 
 namespace MSEnchant.UI.Window;
 
 public class MainWindow : MSWindow
 {
-    public override string BaseTexturePath => "MSEnchant/Assets/enchantUI.main";
+    public override string BaseTexturePath => "enchantUI.main";
 
     public override Type[] LinkWindowTypes => new[]
     {
@@ -21,10 +22,9 @@ public class MainWindow : MSWindow
     {
         AddBackGroundTexture("backgrnd2", 11, 22);
 
-        AddCloseButton(322, tooltip: "结束强化。");
+        AddCloseButton(322, tooltip: Language.GetTextValue("Mods.MSEnchant.UIText.EndEnchant"));
 
-        var guideLayer = new MSImage("MSEnchant/Assets/enchantUI.main.layerguide", 133, 122);
-        Append(guideLayer);
+        Append(new MSImage("enchantUI.main.layerguide"));
 
         OnMouseUp += (evt, element) =>
         {

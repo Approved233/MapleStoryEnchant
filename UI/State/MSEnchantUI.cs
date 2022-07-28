@@ -57,7 +57,7 @@ public class MSEnchantUI : UIState
 
     private MSNotice InitNotice(string content, Vector2 pos, Action<MSNotice> afterInit)
     {
-        var notice = new MSNotice("MSEnchant/Assets/Notice6", content, pos.X, pos.Y);
+        var notice = new MSNotice("Notice6", content, pos.X, pos.Y);
         notice.OnButtonClick += (evt, element) => { notice.RemoveNextFrame(); };
         afterInit.Invoke(notice);
         SoundEngine.PlaySound(new SoundStyle("MSEnchant/Assets/DlgNotice"));
@@ -152,7 +152,7 @@ public class MSEnchantUI : UIState
         r.DragOffset = replace.DragOffset;
         doBeforeClose?.Invoke(r);
         r.Recalculate();
-        replace.Close();
+        replace.Close(true);
         return r;
     }
 

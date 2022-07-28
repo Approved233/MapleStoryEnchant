@@ -1,0 +1,35 @@
+{
+  "font": {
+    "bold": "simsun",
+    "regular": "simsun-bold",
+    "requireFixHeight": true
+  },
+  "origins": {
+    "enchantUI.tab_hyper.layerbothways": [53, 59],
+    "enchantUI.tab_hyper.layerdestroyable": [89, 59],
+    "enchantUI.tab_hyper.layerdestroyable2": [74, 59],
+    "enchantUI.tab_hyper.layerdowngradable": [78, 59],
+    "enchantUI.tab_hyper.layerlack_meso": [24, 58],
+    "enchantUI.tab_hyper.layerzero": [117, 58],
+    "enchantUI.main.layerguide": [138, 120],
+    "enchantUI.tab_transmission.layerleftText": [46, 145],
+    "enchantUI.tab_transmission.layerrightText": [213, 136],
+    "enchantUI.tab_transmission.layertip1": [46, 63],
+    "enchantUI.tab_transmission.layertip2": [70, 62],
+    "enchantUI.tab_transmission.layertip3": [89, 67],
+    "enchantUI.tab_transmission.layertip4": [38, 62],
+    "enchantUI.miniGame.startEff.0": [63, 88],
+    "enchantUI.miniGame.startEff.1": [59, 87],
+    "enchantUI.miniGame.startEff.2": [58, 87],
+    "enchantUI.miniGame.startEff.3": [77, 91],
+    "enchantUI.miniGame.startEff.4": [78, 91],
+    "enchantUI.miniGame.startEff.5": [78, 91],
+    "enchantUI.miniGame.successEff.0": [44, 131],
+    "enchantUI.miniGame.successEff.1": [44, 121],
+    "enchantUI.miniGame.successEff.2": [44, 116],
+    "enchantUI.miniGame.successEff.3": [45, 113],
+    "enchantUI.miniGame.successEff.4": [46, 112],
+    "enchantUI.miniGame.successEff.5": [47, 114],
+    "enchantUI.miniGame.successEff.6": [52, 118]
+  }
+}

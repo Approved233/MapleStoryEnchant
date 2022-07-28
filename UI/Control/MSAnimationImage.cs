@@ -17,7 +17,7 @@ public struct MSFrameData
     public float Left;
     public float Top;
 
-    public MSFrameData(int delay, float left, float top)
+    public MSFrameData(int delay, float left = 0f, float top = 0f)
     {
         Delay = delay;
         Left = left;
@@ -51,15 +51,22 @@ public class MSAnimationImage : MSElement
     public void AddFrame(MSFrameData frame)
     {
         var i = Frames.Count;
-        Frames[ModContent.Request<Texture2D>($"{BaseTexturePath}.{i}", AssetRequestMode.ImmediateLoad)] = frame;
+        var texture = $"{BaseTexturePath}.{i}";
+        var origin = texture.GetTextureOrigin(new Vector2(frame.Left, frame.Top));
+        Frames[texture.LoadLocaleTexture(AssetRequestMode.ImmediateLoad)] = new MSFrameData
+        {
+            Delay = frame.Delay,
+            Left = origin.X,
+            Top = origin.Y
+        };
     }
 
     public void SetFrames(MSFrameData[] frames)
     {
         Frames.Clear();
-        foreach (var delay in frames)
+        foreach (var frame in frames)
         {
-            AddFrame(delay);
+            AddFrame(frame);
         }
 
         Reset();

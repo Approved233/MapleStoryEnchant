@@ -2,7 +2,7 @@
 
 public class MSEnchantPopup : MSPopup
 {
-    public MSEnchantPopup(string content, float left = 0, float top = 0) : base("MSEnchant/Assets/enchantUI.popUp", content, left, top)
+    public MSEnchantPopup(string content, float left = 0, float top = 0) : base("enchantUI.popUp", content, left, top)
     {
     }
 

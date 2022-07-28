@@ -35,7 +35,7 @@ public class MSEnchantResultPopup : MSPopup
     protected override float ContentTop => 97f;
 
     public MSEnchantResultPopup(string content, float left = 0, float top = 0) : base(
-        "MSEnchant/Assets/enchantUI.popUp2", content, left, top)
+        "enchantUI.popUp2", content, left, top)
     {
     }
 
@@ -43,7 +43,7 @@ public class MSEnchantResultPopup : MSPopup
     {
         AddButton("buttonconfirm", 108, 130);
 
-        AddChild(new MSImage("MSEnchant/Assets/enchantUI.popUp2.cover", 83, 30));
+        AddChild(new MSImage("enchantUI.popUp2.cover", 83, 30));
 
         AddChild(ItemBefore = new MSItem(32, 32, 90, 36)
         {

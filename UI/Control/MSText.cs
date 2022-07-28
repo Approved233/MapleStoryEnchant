@@ -83,7 +83,7 @@ public class MSText : MSElement
 
         var font = Font.Value;
         var textSize = font.MeasureString(_visibleText);
-        if (Math.Abs(textScale - 1f) > 0.1f)
+        if (Global.CurrentCultureUISetting.Font.RequireFixHeight && Math.Abs(textScale - 1f) > 0.1f)
             pos.Y += CharacterSize.Y * textScale;
         ChatManager.DrawColorCodedString(spriteBatch, font, _visibleText, pos, Color, 0.0f,
             textSize * new Vector2(TextOriginX, TextOriginY), new Vector2(textScale));

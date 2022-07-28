@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MSEnchant.Helper;
 using MSEnchant.Items;
 using MSEnchant.Models;
@@ -13,15 +11,14 @@ using MSEnchant.UI.State;
 using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.UI;
-using Vector2 = System.Numerics.Vector2;
 
 namespace MSEnchant.UI.Window;
 
 public class StarForceWindow : MSWindow
 {
-    public override string BaseTexturePath => "MSEnchant/Assets/enchantUI.tab_hyper";
+    public override string BaseTexturePath => "enchantUI.tab_hyper";
 
     public override Type[] LinkWindowTypes => new[]
     {
@@ -36,7 +33,7 @@ public class StarForceWindow : MSWindow
 
     protected MSText NextStarText;
 
-    protected MSText DetailText;
+    protected MSMultiLineText DetailText;
 
     protected MSCheckBox DisableMiniGameCheckBox;
 
@@ -84,35 +81,35 @@ public class StarForceWindow : MSWindow
     {
         AddBackGroundTexture("backgrnd2", 11, 22);
 
-        AddCloseButton(322, tooltip: "结束强化。");
+        AddCloseButton(322, tooltip: Language.GetTextValue("Mods.MSEnchant.UIText.EndEnchant"));
 
-        var tabScrollButton = new MSButton("MSEnchant/Assets/enchantUI.buttontab_scroll", 17, 29)
+        var tabScrollButton = new MSButton("enchantUI.buttontab_scroll", 17, 29)
         {
             Disabled = true
         };
         Append(tabScrollButton);
 
-        var tabHyperButton = new MSButton("MSEnchant/Assets/enchantUI.tab_hyper.buttontab_hyper", 122, 29)
+        var tabHyperButton = new MSButton("enchantUI.tab_hyper.buttontab_hyper", 122, 29)
         {
-            Tooltip = "使用星星对已消耗所有可升级次数的装备进行强化。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.HyperButton_Tooltip")
         };
-        tabHyperButton.SetImage("MSEnchant/Assets/enchantUI.tab_hyper.buttontab_hyper.normal");
+        tabHyperButton.SetImage("enchantUI.tab_hyper.buttontab_hyper.normal");
         Append(tabHyperButton);
 
-        var tabTransmissionButton = new MSButton("MSEnchant/Assets/enchantUI.buttontab_transmission", 226, 29)
+        var tabTransmissionButton = new MSButton("enchantUI.buttontab_transmission", 226, 29)
         {
-            Tooltip = "将装备痕迹具有的潜能继承到装备上。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.TransmissionButton_Tooltip")
         };
         tabTransmissionButton.OnClick += (evt, element) => { SwitchTransmissionTab(); };
         Append(tabTransmissionButton);
 
-        Append(LayerText = new MSImage(string.Empty, 117, 58));
+        Append(LayerText = new MSImage(string.Empty));
 
         Append(EnchantItemComponent = new MSItem(68, 68, 38, 101));
 
         Append(StarFlag = new MSImage(string.Empty, 18, 78));
 
-        Append(HyperEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.hyperEffect", new[]
+        Append(HyperEffect = new MSAnimationImage("enchantUI.hyperEffect", new[]
         {
             new MSFrameData(90, 14, 78),
             new MSFrameData(90, -44, 20),
@@ -127,8 +124,7 @@ public class StarForceWindow : MSWindow
             Visible = false
         });
 
-        var layerArrowTexture = ModContent.Request<Texture2D>("MSEnchant/Assets/enchantUI.tab_hyper.layerarrow",
-            AssetRequestMode.ImmediateLoad);
+        var layerArrowTexture = "enchantUI.tab_hyper.layerarrow".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
 
         var list = new MSList();
         list.Width.Set(180f, 0f);
@@ -144,12 +140,12 @@ public class StarForceWindow : MSWindow
 
         const float fontScale = 0.5f;
 
-        firstLine.Append(CurrentStarText = new MSText(string.Empty, fontScale - 0.03f)
+        firstLine.Append(CurrentStarText = new MSText(Language.GetTextValue("Mods.MSEnchant.UIText.StarForceLevel", 25), fontScale - 0.03f)
         {
             Font = Global.TextBold
         });
 
-        var arrow = new MSImage(layerArrowTexture, 168 - list.Left.Pixels,
+        var arrow = new MSImage(layerArrowTexture, Math.Max(168 - list.Left.Pixels, CurrentStarText.TextSize.X),
             89 - list.Top.Pixels)
         {
             DrawAlpha = false
@@ -164,14 +160,9 @@ public class StarForceWindow : MSWindow
             });
         list.Add(firstLine);
 
-        list.Add(DetailText = new MSText(string.Empty, fontScale)
-        {
-            Font = Global.TextBold
-        });
-
         Append(list);
 
-        var scrollbar = new MSScrollbar("MSEnchant/Assets/enchantUI.tab_hyper.scroll", 315, 85)
+        var scrollbar = new MSScrollbar("enchantUI.tab_hyper.scroll", 315, 85)
         {
             ScrollPower =
             {
@@ -180,18 +171,27 @@ public class StarForceWindow : MSWindow
             }
         };
         list.SetScrollbar(scrollbar);
+        
+        list.Add(DetailText = new MSMultiLineText(string.Empty)
+        {
+            AlignCenter = false,
+            NewLineWhenReachMaxWidth = true,
+            Font = Global.TextBold,
+            FontScale = fontScale,
+            MaxTextWidth = scrollbar.Left.Pixels - list.Left.Pixels
+        });
 
         Append(scrollbar);
 
-        Append(DisableMiniGameCheckBox = new MSCheckBox("MSEnchant/Assets/enchantUI.tab_hyper.checkBox1", 151, 200)
+        Append(DisableMiniGameCheckBox = new MSCheckBox("enchantUI.tab_hyper.checkBox1", 151, 200)
         {
-            Tooltip = "接触时，可以更快地进行星之力强化，\n但无法获得通过‘抓星星’获取的成功率提高效果。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.DisableMiniGameCheckBox_Tooltip")
         });
 
-        Append(UseProtectScrollCheckBox = new MSCheckBox("MSEnchant/Assets/enchantUI.tab_hyper.checkBox1", 308, 200)
+        Append(UseProtectScrollCheckBox = new MSCheckBox("enchantUI.tab_hyper.checkBox1", 308, 200)
         {
             Disabled = true,
-            Tooltip = "用星之力12星至16星之间的装备来尝试进行星之力强化时，\n可额外消耗星星，令破坏率变为0%。\n极真装备无法使用。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.UseProtectScrollCheckBox_Tooltip")
         });
         UseProtectScrollCheckBox.OnClick += (evt, element) => { UpdateEnchantItem(); };
 
@@ -200,10 +200,10 @@ public class StarForceWindow : MSWindow
             Font = Global.TextBold
         });
 
-        Append(StartEnchantButton = new MSButton("MSEnchant/Assets/enchantUI.tab_hyper.buttonenchantStart", 83, 252)
+        Append(StartEnchantButton = new MSButton("enchantUI.tab_hyper.buttonenchantStart", 83, 252)
         {
             Disabled = true,
-            Tooltip = "使用星星，对升级次数全部耗尽的装备进行强化。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.StartEnchantButton_Tooltip")
         });
         StartEnchantButton.OnClick += (evt, element) =>
         {
@@ -239,10 +239,10 @@ public class StarForceWindow : MSWindow
             State.ShowPopupCenter(popup);
         };
 
-        Append(CancelButton = new MSButton("MSEnchant/Assets/enchantUI.buttoncancel", 174, 252)
+        Append(CancelButton = new MSButton("enchantUI.buttoncancel", 174, 252)
         {
             Disabled = true,
-            Tooltip = "回到初始画面。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.CancelButton_Tooltip")
         });
         CancelButton.OnClick += (e, element) => { EnchantItem = null; };
 
@@ -287,14 +287,14 @@ public class StarForceWindow : MSWindow
     {
         if (!CanEnchant)
         {
-            State.ShowNoticeCenter("正在处理别的请求。\n请稍后再试。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.ProcessingActions"));
             return false;
         }
 
         var msItem = EnchantItem.GetEnchantItem();
         if (msItem == null)
         {
-            State.ShowNoticeCenter("发生未知错误。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.UnknownError"));
             return false;
         }
 
@@ -303,13 +303,13 @@ public class StarForceWindow : MSWindow
         var result = msItem.TryEnchant(EnchantSetting, out var beforeItem);
         if (result == StarForceEnchantResult.NoResult)
         {
-            State.ShowNoticeCenter("发生未知错误。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.UnknownError"));
             return false;
         }
 
         if (!Main.LocalPlayer.CostItem<StarItem>(EnchantSetting.Costs))
         {
-            State.ShowNoticeCenter("发生未知错误。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.UnknownError"));
             return false;
         }
 
@@ -321,14 +321,7 @@ public class StarForceWindow : MSWindow
             var afterItem = EnchantSetting.Item;
             UpdateEnchantItem();
 
-            var content = result switch
-            {
-                StarForceEnchantResult.Success => "强化成功。",
-                StarForceEnchantResult.Downgrade => "强化失败，强化阶段下降。",
-                StarForceEnchantResult.Destroy => "强化失败，装备损坏。",
-                StarForceEnchantResult.Failed => "强化失败。",
-                _ => ""
-            };
+            var content = Language.GetTextValue($"Mods.MSEnchant.UIText.EnchantResult_{result}");
 
             var animation = result switch
             {
@@ -365,7 +358,7 @@ public class StarForceWindow : MSWindow
                 {
                     EnchantItem = null;
                     if (!msItem.Destroyed)
-                        AlertPopup("强化成功了。\n装备已达到强化上限，\n无法继续强化。");
+                        AlertPopup(Language.GetTextValue("Mods.MSEnchant.UIText.EnchantPopup_MaxStars"));
                 }
             };
             State.ShowPopupCenter(popup);
@@ -393,6 +386,9 @@ public class StarForceWindow : MSWindow
         var msItem = EnchantItem?.GetEnchantItem();
         if (msItem == null)
         {
+            if (State.IsWindowEnabled<MiniGameWindow>(out var window))
+                window.Close(true);
+            
             MSEnchantUI.Instance.ReplaceWindow<MainWindow>(this);
             return;
         }
@@ -409,9 +405,9 @@ public class StarForceWindow : MSWindow
 
         var flagTexture = starForce switch
         {
-            >= 20 => "MSEnchant/Assets/enchantUI.tab_hyper.layerstar20",
-            >= 15 => "MSEnchant/Assets/enchantUI.tab_hyper.layerstar15",
-            >= 10 => "MSEnchant/Assets/enchantUI.tab_hyper.layerstar10",
+            >= 20 => "enchantUI.tab_hyper.layerstar20",
+            >= 15 => "enchantUI.tab_hyper.layerstar15",
+            >= 10 => "enchantUI.tab_hyper.layerstar10",
             _ => null
         };
         var minDowngradeStarForce = starForce switch
@@ -421,16 +417,16 @@ public class StarForceWindow : MSWindow
             >= 10 => 10,
             _ => 0
         };
-        StarFlag.Tooltip = $"达到了{minDowngradeStarForce}星！即使星之力强化失败，强化阶段下\n降，也不会降到{minDowngradeStarForce}星以下。";
+        StarFlag.Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.StarFlag_Tooltip", minDowngradeStarForce);
         StarFlag.SetTexture(flagTexture);
 
-        CurrentStarText.Text = $"{msItem.StarForce}星";
-        NextStarText.Text = $"{msItem.StarForce + 1}星";
+        CurrentStarText.Text = Language.GetTextValue("Mods.MSEnchant.UIText.StarForceLevel", msItem.StarForce);
+        NextStarText.Text = Language.GetTextValue("Mods.MSEnchant.UIText.StarForceLevel", msItem.StarForce + 1);
 
         EnchantSetting.Chance = msItem.FindNextLevelChanceSetting();
         if (EnchantSetting.Chance == null)
         {
-            State.ShowNoticeCenter("无法获取星之力配置，请稍后再试。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.UnableFindStarForceSetting"));
             return;
         }
 
@@ -446,7 +442,7 @@ public class StarForceWindow : MSWindow
         if (UseProtectScrollCheckBox.Checked && !EnchantSetting.Chance.AllowProtect)
         {
             UseProtectScrollCheckBox.Checked = false;
-            State.ShowNoticeCenter("无法使用防损坏，已解除。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.UncheckProtectPopup"));
         }
 
         EnchantSetting.Protect = UseProtectScrollCheckBox.Checked && EnchantSetting.Chance.AllowProtect;
@@ -456,44 +452,40 @@ public class StarForceWindow : MSWindow
 
         EnchantSetting.BaseCosts = rareSetting.Costs[msItem.StarForce];
 
-        var confirmPopupLines = new List<string> { $"{EnchantSetting.Costs} 星星\n" };
-
+        var riskLanguageKey = string.Empty;
         if (!CanPayCosts)
         {
-            layerTextTexture = "MSEnchant/Assets/enchantUI.tab_hyper.layerlack_meso";
-            flagOffset = new Vector2(72, 58);
+            layerTextTexture = "enchantUI.tab_hyper.layerlack_meso";
         }
         else if (!EnchantSetting.Protect && EnchantSetting.Chance.FailDestroy > 0 &&
                  EnchantSetting.Chance.FailDowngrade > 0)
         {
-            layerTextTexture = "MSEnchant/Assets/enchantUI.tab_hyper.layerbothways";
-            flagOffset = new Vector2(53, 59);
-            confirmPopupLines.Add("强化失败时，装备可能会损坏或\n强化等级下降。");
+            layerTextTexture = "enchantUI.tab_hyper.layerbothways";
+            riskLanguageKey = "Mods.MSEnchant.UIText.ConfirmPopup_RiskBoth";
         }
         else if (EnchantSetting.Chance.FailKeep > 0 && EnchantSetting.Chance.FailDestroy > 0 && !EnchantSetting.Protect)
         {
-            layerTextTexture = "MSEnchant/Assets/enchantUI.tab_hyper.layerdestroyable2";
-            flagOffset = new Vector2(74, 59);
-            confirmPopupLines.Add("强化失败时，装备有可能破坏。");
+            layerTextTexture = "enchantUI.tab_hyper.layerdestroyable2";
+            riskLanguageKey = "Mods.MSEnchant.UIText.ConfirmPopup_Destroy";
         }
         else if (EnchantSetting.Chance.FailDowngrade > 0)
         {
-            layerTextTexture = "MSEnchant/Assets/enchantUI.tab_hyper.layerdowngradable";
-            flagOffset = new Vector2(78, 59);
-            confirmPopupLines.Add("强化失败时，强化等级会下降。");
+            layerTextTexture = "enchantUI.tab_hyper.layerdowngradable";
+            riskLanguageKey = "Mods.MSEnchant.UIText.ConfirmPopup_Downgrade";
         }
         else
         {
-            layerTextTexture = "MSEnchant/Assets/enchantUI.tab_hyper.layerzero";
-            flagOffset = new Vector2(117, 58);
+            layerTextTexture = "enchantUI.tab_hyper.layerzero";
         }
+
+        flagOffset = layerTextTexture.GetTextureOrigin();
 
         LayerText.SetTexture(layerTextTexture);
         LayerText.Left.Set(flagOffset.X, 0f);
         LayerText.Top.Set(flagOffset.Y, 0f);
-
-        confirmPopupLines.Add("是否进行强化？");
-        ConfirmPopupContent = string.Join("\n", confirmPopupLines);
+        
+        ConfirmPopupContent = Language.GetTextValue("Mods.MSEnchant.UIText.ConfirmPopup_Content", EnchantSetting.Costs, 
+            !string.IsNullOrEmpty(riskLanguageKey) ? "\n" + Language.GetText(riskLanguageKey) : "\n");
 
         var detailTextLines = new List<string>();
         detailTextLines.AddRange(EnchantSetting.Chance.DetailText);
@@ -501,7 +493,7 @@ public class StarForceWindow : MSWindow
 
         var nextAttribute = msItem.CalculateBonusAttributes(msItem.StarForce, msItem.StarForce + 1);
         detailTextLines.AddRange(nextAttribute.Select(a => a.EnchantTooltip));
-        DetailText.Text = string.Join("\n", detailTextLines);
+        DetailText.Content = string.Join("\n", detailTextLines);
         CostText.Text = EnchantSetting.Costs.ToString();
 
         CancelButton.Disabled = false;

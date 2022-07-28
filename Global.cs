@@ -12,6 +12,7 @@ using ReLogic.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -45,8 +46,25 @@ public class Global
     
     public static MSEnchant Mod;
 
-    public static Asset<DynamicSpriteFont> TextBold;
-    public static Asset<DynamicSpriteFont> TextRegular;
+    public static readonly Dictionary<string, UISetting> CultureUISettings =
+        new Dictionary<string, UISetting>();
+
+    public static UISetting CurrentCultureUISetting
+    {
+        get
+        {
+            var culture = LanguageManager.Instance.ActiveCulture.Name;
+            if (CultureUISettings.TryGetValue(culture, out var settings))
+                return settings;
+
+            return FallbackCultureUISetting;
+        }
+    }
+
+    public static UISetting FallbackCultureUISetting => CultureUISettings["zh-Hans"];
+    
+    public static Asset<DynamicSpriteFont> TextBold => CurrentCultureUISetting.Font.BoldAsset;
+    public static Asset<DynamicSpriteFont> TextRegular => CurrentCultureUISetting.Font.RegularAsset;
 
     public static Asset<Texture2D> StarTexture;
     public static Asset<Texture2D> GrayStarTexture;

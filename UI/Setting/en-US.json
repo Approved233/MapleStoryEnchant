@@ -1,0 +1,33 @@
+{
+  "font": {
+    "bold": "arial-bold",
+    "regular": "arial"
+  },
+  "origins": {
+    "enchantUI.tab_hyper.layerbothways": [24, 59],
+    "enchantUI.tab_hyper.layerdestroyable": [24, 59],
+    "enchantUI.tab_hyper.layerdestroyable2": [24, 59],
+    "enchantUI.tab_hyper.layerdowngradable": [24, 59],
+    "enchantUI.tab_hyper.layerlack_meso": [24, 58],
+    "enchantUI.tab_hyper.layerzero": [79, 59],
+    "enchantUI.main.layerguide": [138, 120],
+    "enchantUI.tab_transmission.layerleftText": [46, 145],
+    "enchantUI.tab_transmission.layerrightText": [213, 136],
+    "enchantUI.tab_transmission.layertip1": [65, 69],
+    "enchantUI.tab_transmission.layertip2": [42, 69],
+    "enchantUI.tab_transmission.layertip3": [65, 69],
+    "enchantUI.miniGame.startEff.0": [23, 88],
+    "enchantUI.miniGame.startEff.1": [19, 87],
+    "enchantUI.miniGame.startEff.2": [18, 87],
+    "enchantUI.miniGame.startEff.3": [37, 91],
+    "enchantUI.miniGame.startEff.4": [38, 91],
+    "enchantUI.miniGame.startEff.5": [38, 91],
+    "enchantUI.miniGame.successEff.0": [52, 134],
+    "enchantUI.miniGame.successEff.1": [52, 124],
+    "enchantUI.miniGame.successEff.2": [52, 119],
+    "enchantUI.miniGame.successEff.3": [52, 118],
+    "enchantUI.miniGame.successEff.4": [53, 118],
+    "enchantUI.miniGame.successEff.5": [54, 118],
+    "enchantUI.miniGame.successEff.6": [58, 120]
+  }
+}

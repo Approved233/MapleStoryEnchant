@@ -7,12 +7,13 @@ using MSEnchant.UI.Control;
 using MSEnchant.UI.State;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Localization;
 
 namespace MSEnchant.UI.Window;
 
 public class TransmissionWindow : MSWindow
 {
-    public override string BaseTexturePath => "MSEnchant/Assets/enchantUI.tab_transmission";
+    public override string BaseTexturePath => "enchantUI.tab_transmission";
 
     public override Type[] LinkWindowTypes => new[]
     {
@@ -67,10 +68,10 @@ public class TransmissionWindow : MSWindow
 
     protected TipOption[] TipOptions =
     {
-        new TipOption("MSEnchant/Assets/enchantUI.tab_transmission.layertip1", 4000, new Vector2(46, 63)),
-        new TipOption("MSEnchant/Assets/enchantUI.tab_transmission.layertip2", 4000, new Vector2(70, 62)),
-        new TipOption("MSEnchant/Assets/enchantUI.tab_transmission.layertip3", 4000, new Vector2(89, 67)),
-        new TipOption("MSEnchant/Assets/enchantUI.tab_transmission.layertip4", 4000, new Vector2(38, 62))
+        new("enchantUI.tab_transmission.layertip1", 4000),
+        new("enchantUI.tab_transmission.layertip2", 4000),
+        new("enchantUI.tab_transmission.layertip3", 4000),
+        new("enchantUI.tab_transmission.layertip4", 4000)
     };
 
     protected DateTime NextTipTime;
@@ -82,42 +83,42 @@ public class TransmissionWindow : MSWindow
     protected override void DoInit()
     {
         AddBackGroundTexture("backgrnd2", 11, 22);
-        AddCloseButton(322, tooltip: "结束继承。");
+        AddCloseButton(322, tooltip: Language.GetTextValue("Mods.MSEnchant.UIText.EndTransmission"));
 
-        var tabScrollButton = new MSButton("MSEnchant/Assets/enchantUI.buttontab_scroll", 17, 29)
+        var tabScrollButton = new MSButton("enchantUI.buttontab_scroll", 17, 29)
         {
             Disabled = true
         };
         Append(tabScrollButton);
 
-        TabHyperButton = new MSButton("MSEnchant/Assets/enchantUI.buttontab_hyper", 122, 29)
+        TabHyperButton = new MSButton("enchantUI.buttontab_hyper", 122, 29)
         {
-            Tooltip = "使用星星对已消耗所有可升级次数的装备进行强化。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.HyperButton_Tooltip")
         };
         TabHyperButton.OnClick += (evt, element) => { SwitchHyperTab(); };
         Append(TabHyperButton);
 
-        var tabTransmissionButton = new MSButton("MSEnchant/Assets/enchantUI.buttontab_transmission", 226, 29)
+        var tabTransmissionButton = new MSButton("enchantUI.buttontab_transmission", 226, 29)
         {
-            Tooltip = "将装备痕迹具有的潜能继承到装备上。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.TransmissionButton_Tooltip")
         };
-        tabTransmissionButton.SetImage("MSEnchant/Assets/enchantUI.tab_transmission.buttontab_transmission.normal");
+        tabTransmissionButton.SetImage("enchantUI.tab_transmission.buttontab_transmission.normal");
         Append(tabTransmissionButton);
 
         Append(Tips = new MSImage(string.Empty));
 
-        Append(LeftText = new MSImage("MSEnchant/Assets/enchantUI.tab_transmission.layerleftText", 46, 153));
-        Append(RightText = new MSImage("MSEnchant/Assets/enchantUI.tab_transmission.layerrightText", 214, 135));
+        Append(LeftText = new MSImage("enchantUI.tab_transmission.layerleftText"));
+        Append(RightText = new MSImage("enchantUI.tab_transmission.layerrightText"));
 
         Append(TransmissionButton =
-            new MSButton("MSEnchant/Assets/enchantUI.tab_transmission.buttontransmissionStart", 83, 252)
+            new MSButton("enchantUI.tab_transmission.buttontransmissionStart", 83, 252)
             {
                 Disabled = true,
-                Tooltip = "将装备痕迹具有的潜能继承到装备上。装备上原有的潜能将会消失。"
+                Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.TransmissionStartButton_Tooltip")
             });
         TransmissionButton.OnClick += (e, element) =>
         {
-            var popup = new MSEnchantPopup("是否使用装备痕迹，\n提高装备的能力？");
+            var popup = new MSEnchantPopup(Language.GetTextValue("Mods.MSEnchant.UIText.TransmissionPopup_Content"));
             popup.OnButtonClick += (button, name) =>
             {
                 if (name != "buttonconfirm")
@@ -128,9 +129,9 @@ public class TransmissionWindow : MSWindow
             State.ShowPopupCenter(popup);
         };
 
-        Append(CancelButton = new MSButton("MSEnchant/Assets/enchantUI.buttoncancel", 174, 252)
+        Append(CancelButton = new MSButton("enchantUI.buttoncancel", 174, 252)
         {
-            Tooltip = "返回初始画面。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.CancelButton_Tooltip")
         });
         CancelButton.OnClick += (e, element) =>
         {
@@ -145,7 +146,7 @@ public class TransmissionWindow : MSWindow
             DrawColor = Global.TraceItemDrawColor
         });
 
-        Append(TraceEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.tab_transmission.traceEffect", new[]
+        Append(TraceEffect = new MSAnimationImage("enchantUI.tab_transmission.traceEffect", new[]
         {
             new MSFrameData(120, 62, 132),
             new MSFrameData(120, 53, 126),
@@ -169,7 +170,7 @@ public class TransmissionWindow : MSWindow
 
         Append(TargetItemComponent = new MSItem(68, 68, 221, 140));
 
-        Append(TransmissionEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.transmissionEffect", new[]
+        Append(TransmissionEffect = new MSAnimationImage("enchantUI.transmissionEffect", new[]
         {
             new MSFrameData(120, 38, 127),
             new MSFrameData(120, 40, 127),
@@ -215,8 +216,9 @@ public class TransmissionWindow : MSWindow
                 TipIndex = TipIndex + 1 >= TipOptions.Length ? 0 : TipIndex + 1;
                 var currentTip = TipOptions[TipIndex];
                 Tips.SetTexture(currentTip.Texture);
-                Tips.Left.Set(currentTip.Offset.X, 0);
-                Tips.Top.Set(currentTip.Offset.Y, 0);
+                var offset = currentTip.Texture.GetTextureOrigin();
+                Tips.Left.Set(offset.X, 0);
+                Tips.Top.Set(offset.Y, 0);
                 NextTipTime = DateTime.Now.AddMilliseconds(currentTip.Delay);
 
                 Recalculate();
@@ -240,14 +242,14 @@ public class TransmissionWindow : MSWindow
     {
         if (Processing)
         {
-            State.ShowNoticeCenter("正在处理别的请求。\n请稍后再试。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.ProcessingActions"));
             return;
         }
 
         var traceMsItem = TraceItem?.GetEnchantItem();
         if (traceMsItem == null)
         {
-            State.ShowNoticeCenter("发生未知错误。");
+            State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.UnknownError"));
             return;
         }
 
@@ -257,21 +259,23 @@ public class TransmissionWindow : MSWindow
         {
             IsLocked = false;
 
+            traceMsItem = TraceItem?.GetEnchantItem();
+            if (traceMsItem == null || TargetItem.IsNullOrAir())
+            {
+                State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.ProcessingActions"));
+                return;
+            }
+
             var result = traceMsItem.TryTransmission(TargetItem, out var beforeItem);
             if (result == StarForceTransmissionResult.NoResult)
             {
-                State.ShowNoticeCenter("正在处理别的请求。\n请稍后再试。");
+                State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.ProcessingActions"));
                 return;
             }
 
             var afterItem = TraceItem;
 
-            var content = result switch
-            {
-                StarForceTransmissionResult.Success => "继承成功。",
-                StarForceTransmissionResult.Failed => "继承失败。",
-                _ => string.Empty
-            };
+            var content = Language.GetTextValue($"Mods.MSEnchant.UIText.TransmissionResult_{result}");
 
             var animation = result switch
             {
@@ -365,7 +369,7 @@ public class TransmissionWindow : MSWindow
         }
 
         FAIL:
-        State.ShowNoticeCenter("显示装备痕迹的装备和\n继承能力的装备\n必须一致，才能继承能力。");
+        State.ShowNoticeCenter( Language.GetTextValue("Mods.MSEnchant.UIText.Transmission_EquipNotSame"));
     }
 
     protected void UpdateItem()
@@ -384,20 +388,18 @@ public class TransmissionWindow : MSWindow
         TargetItemComponent.DisplayItem = TargetItem;
 
         if (TargetItem.IsNullOrAir() && TraceItem.IsNullOrAir())
-            MSEnchantUI.Instance.ReplaceWindow<MainWindow>(this);
+            State.ReplaceWindow<MainWindow>(this);
     }
 
     public struct TipOption
     {
         public string Texture;
         public int Delay;
-        public Vector2 Offset;
 
-        public TipOption(string texture, int delay, Vector2 offset)
+        public TipOption(string texture, int delay)
         {
             Texture = texture;
             Delay = delay;
-            Offset = offset;
         }
     }
 }

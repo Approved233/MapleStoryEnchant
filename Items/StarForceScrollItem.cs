@@ -10,6 +10,7 @@ using MSEnchant.UI.State;
 using MSEnchant.UI.Window;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -124,11 +125,15 @@ public class StarForceScrollItem : ModItem
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
         // 255 153 0
-        tooltips.Add(new TooltipLine(Mod, "SuccessRate", $"成功率{SuccessRate * 100:0}%")
+        tooltips.Add(new TooltipLine(Mod, "SuccessRate",
+            Language.GetTextValue("Mods.MSEnchant.ItemTooltip.StarForceScrollItem_SuccessRate",
+                (SuccessRate * 100).ToString("0")))
         {
             OverrideColor = new Color(255, 153, 0)
         });
-        tooltips.Add(new TooltipLine(Mod, "ToStarLevelTips", $"升级后的道具的星之力将强化为\n{ScrollStarForce}星")
+        tooltips.Add(new TooltipLine(Mod, "ToStarLevelTips",
+            Language.GetTextValue("Mods.MSEnchant.ItemTooltip.StarForceScrollItem_TargetStarLevelTips",
+                ScrollStarForce))
         {
             OverrideColor = new Color(255, 153, 0)
         });
@@ -136,7 +141,7 @@ public class StarForceScrollItem : ModItem
 
     protected void UpdateName()
     {
-        Item.SetNameOverride("星之力%star%星强化券".Replace("%star%", ScrollStarForce.ToString()));
+        Item.SetNameOverride(Language.GetTextValue("Mods.MSEnchant.ItemName.StarForceScrollItem_Format", ScrollStarForce));
     }
 
     public override void SetDefaults()
@@ -144,12 +149,6 @@ public class StarForceScrollItem : ModItem
         Item.maxStack = 1;
         Item.value = Item.buyPrice(5);
         Item.rare = ItemRarityID.Purple;
-    }
-
-    public override void SetStaticDefaults()
-    {
-        DisplayName.SetDefault("星之力强化券");
-        Tooltip.SetDefault("把[c/FF9900:已经完成升级的装备道具]的星\n之力强化至指定数值，不会受到\n复原之盾的效果影响。\n　\n[c/FF9900:无法用于已经强化至指定强化数]\n[c/FF9900:值以上的装备、最高强化数值低]\n[c/FF9900:于所指定的强化数值的装备、极]\n[c/FF9900:真装备。]");
     }
 
     public bool CanApplyTo(Item targetItem)
@@ -161,7 +160,7 @@ public class StarForceScrollItem : ModItem
         if (msItem.Destroyed || msItem.IsReachedMaxStarForce || ScrollStarForce > msItem.MaxStarForceLevel ||
             msItem.StarForce >= ScrollStarForce)
             return false;
-        
+
         return true;
     }
 
@@ -173,13 +172,13 @@ public class StarForceScrollItem : ModItem
 
         if (!CanApplyTo(targetItem))
             return StarForceScrollResult.NoResult;
-        
+
         if (Main.rand.NextDouble() >= SuccessRate)
             return StarForceScrollResult.Failed;
-        
+
         return StarForceScrollResult.Success;
     }
-    
+
     public StarForceScrollResult ApplyTo(Item targetItem)
     {
         var state = MSEnchantUI.Instance;
@@ -192,7 +191,7 @@ public class StarForceScrollItem : ModItem
             return StarForceScrollResult.NoResult;
 
         Item.TurnToAir();
-        
+
         if (Main.rand.NextDouble() >= SuccessRate)
             return StarForceScrollResult.Failed;
 

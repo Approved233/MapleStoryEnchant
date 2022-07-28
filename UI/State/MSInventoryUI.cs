@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MSEnchant.UI.Control;
 using MSEnchant.UI.Window;
 using Terraria;
+using Terraria.Localization;
 using Terraria.UI;
 
 namespace MSEnchant.UI.State;
@@ -21,9 +22,9 @@ public class MSInventoryUI : UIState
 
     public override void OnInitialize()
     {
-        Append(EnchantButton = new MSButton("MSEnchant/Assets/Item.AutoBuild.buttonUpgrade", 570, 244)
+        Append(EnchantButton = new MSButton("Item.AutoBuild.buttonUpgrade", 570, 244)
         {
-            Tooltip = "强化道具。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.EnchantButton_Tooltip")
         });
         EnchantButton.OnClick += (evt, element) =>
         {

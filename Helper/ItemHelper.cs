@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace MSEnchant.Helper;
 
@@ -27,7 +28,7 @@ public static class ItemHelper
 
         if (!msItem.HasStarForce)
         {
-            MSEnchantUI.Instance.ShowNoticeCenter("无法使用卷轴的物品。");
+            MSEnchantUI.Instance.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.InvalidItem"));
             goto END;
         }
 

@@ -39,8 +39,8 @@ public class MSScrollbar : MSElement
 
     public MSScrollbar(string texture, float left = 0f, float top = 0f) : base(left, top)
     {
-        barTexture = ModContent.Request<Texture2D>($"{texture}.base", AssetRequestMode.ImmediateLoad);
-        thumbTexture = ModContent.Request<Texture2D>($"{texture}.thumb", AssetRequestMode.ImmediateLoad);
+        barTexture = $"{texture}.base".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        thumbTexture = $"{texture}.thumb".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
         Width.Set(barTexture.Width(), 0.0f);
         MaxWidth.Set(barTexture.Width(), 0.0f);
         Height.Set(barTexture.Height(), 0f);

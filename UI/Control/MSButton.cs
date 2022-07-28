@@ -27,10 +27,10 @@ public class MSButton : MSElement
 
     public MSButton(string texture, float left = 0f, float top = 0f) : base(left, top)
     {
-        Texture = ModContent.Request<Texture2D>($"{texture}.normal.0", AssetRequestMode.ImmediateLoad);
-        ModContent.RequestIfExists($"{texture}.mouseOver.0", out HoverTexture);
-        ModContent.RequestIfExists($"{texture}.pressed.0", out PressTexture);
-        ModContent.RequestIfExists($"{texture}.disabled.0", out DisabledTexture);
+        Texture = $"{texture}.normal.0".LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
+        $"{texture}.mouseOver.0".LoadLocaleTextureIfExists(out HoverTexture);
+        $"{texture}.pressed.0".LoadLocaleTextureIfExists(out PressTexture);
+        $"{texture}.disabled.0".LoadLocaleTextureIfExists(out DisabledTexture);
         Width.Set(Texture.Width(), 0.0f);
         Height.Set(Texture.Height(), 0.0f);
 
@@ -38,25 +38,19 @@ public class MSButton : MSElement
         {
             if (string.IsNullOrWhiteSpace(ClickSound))
                 return;
-            
+
             var sound = new SoundStyle(HoverSound);
             SoundEngine.PlaySound(sound);
         };
-        
-        OnMouseUp += (evt, element) =>
-        {
-            IsPressing = false;
-        };
-        
-        OnMouseDown += (evt, element) =>
-        {
-            IsPressing = true;
-        };
+
+        OnMouseUp += (evt, element) => { IsPressing = false; };
+
+        OnMouseDown += (evt, element) => { IsPressing = true; };
 
         OnClick += (evt, element) =>
         {
             IsPressing = false;
-            
+
             if (!string.IsNullOrWhiteSpace(ClickSound))
             {
                 var sound = new SoundStyle(ClickSound);
@@ -65,15 +59,15 @@ public class MSButton : MSElement
         };
     }
 
-    public void SetHoverImage(string texture) => ModContent.RequestIfExists($"{texture}.0", out HoverTexture);
+    public void SetHoverImage(string texture) => $"{texture}.0".LoadLocaleTextureIfExists(out HoverTexture);
 
-    public void SetPressTexture(string texture) => ModContent.RequestIfExists($"{texture}.0", out PressTexture);
+    public void SetPressTexture(string texture) => $"{texture}.0".LoadLocaleTextureIfExists(out PressTexture);
 
-    public void SetDisabledTexture(string texture) => ModContent.RequestIfExists($"{texture}.0", out DisabledTexture);
+    public void SetDisabledTexture(string texture) => $"{texture}.0".LoadLocaleTextureIfExists(out DisabledTexture);
 
     public void SetImage(string texture)
     {
-        ModContent.RequestIfExists($"{texture}.0", out Texture, AssetRequestMode.ImmediateLoad);
+        $"{texture}.0".LoadLocaleTextureIfExists(out Texture, AssetRequestMode.ImmediateLoad);
         Width.Set(Texture.Width(), 0.0f);
         Height.Set(Texture.Height(), 0.0f);
     }
@@ -81,7 +75,7 @@ public class MSButton : MSElement
     protected override void DrawSelf(SpriteBatch spriteBatch)
     {
         base.DrawSelf(spriteBatch);
-        
+
         var dimensions = GetDimensions();
 
         Texture2D texture;
@@ -95,10 +89,6 @@ public class MSButton : MSElement
         else
             texture = Texture.Value;
 
-        spriteBatch.UseNonPremultiplied(() =>
-        {
-            spriteBatch.Draw(texture, dimensions.Position(), Color.White);
-        });
+        spriteBatch.UseNonPremultiplied(() => { spriteBatch.Draw(texture, dimensions.Position(), Color.White); });
     }
-
 }

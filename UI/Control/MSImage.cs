@@ -41,7 +41,7 @@ public class MSImage : MSElement
     public bool RemoveFloatingPointsFromDrawPosition { get; set; } = false;
 
     public float Rotation { get; set; } = 0;
-    
+
     public SpriteEffects Effect { get; set; } = SpriteEffects.None;
 
     public bool DrawAlpha { get; set; } = true;
@@ -51,9 +51,9 @@ public class MSImage : MSElement
         Texture = texture;
     }
 
-    public MSImage(string texture, float left = 0f, float top = 0f) : base(left, top)
+    public MSImage(string texture, float left = 0f, float top = 0f) : base(texture.GetTextureOrigin(new Vector2(left, top)))
     {
-        if (!ModContent.RequestIfExists<Texture2D>(texture, out var result, AssetRequestMode.ImmediateLoad))
+        if (!texture.LoadLocaleTextureIfExists(out var result, AssetRequestMode.ImmediateLoad))
             result = null;
 
         Texture = result;
@@ -64,7 +64,7 @@ public class MSImage : MSElement
         if (string.IsNullOrEmpty(texture))
             Texture = null;
         else
-            Texture = ModContent.Request<Texture2D>(texture, AssetRequestMode.ImmediateLoad);
+            Texture = texture.LoadLocaleTexture(AssetRequestMode.ImmediateLoad);
     }
 
     protected void UpdateTexture()
@@ -87,7 +87,7 @@ public class MSImage : MSElement
         var texture = Texture?.Value;
         if (texture == null)
             return;
-        
+
         var dimensions = GetDimensions();
 
         var drawAction = () =>
@@ -114,5 +114,4 @@ public class MSImage : MSElement
         else
             drawAction();
     }
-    
 }

@@ -67,6 +67,11 @@ public class MSElement : UIElement
 
     private MSTooltip TooltipComponent;
 
+    public MSElement(Vector2 origin) : this(origin.X, origin.Y)
+    {
+        
+    }
+    
     public MSElement(float left = 0f, float top = 0f)
     {
         Left.Set(left, 0f);

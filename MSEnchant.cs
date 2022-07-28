@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MSEnchant.Effects;
-using MSEnchant.Globals;
-using MSEnchant.Helper;
 using MSEnchant.Models;
 using MSEnchant.Network;
 using MSEnchant.Network.Packets;
 using MSEnchant.UI.Control;
+using Newtonsoft.Json;
 using ReLogic.Content;
 using ReLogic.Graphics;
 using Terraria;
@@ -41,8 +39,6 @@ namespace MSEnchant
             Global.SuccessEffect = null;
             Global.FailEffect = null;
             Global.WorldEffectAnimations.Clear();
-            Global.TextBold = null;
-            Global.TextRegular = null;
             Global.StarTexture = null;
             Global.GrayStarTexture = null;
             Global.SuperiorStarTexture = null;
@@ -51,13 +47,14 @@ namespace MSEnchant
             Global.TooltipTextures.Clear();
             Global.EnableEnchantUIKey = null;
             Global.StarScrollLootSettings.Clear();
+            Global.CultureUISettings.Clear();
         }
 
         protected void LoadClientResources()
         {
             if (Main.dedServ)
                 return;
-            
+
             Global.UpdateScheduleQueue.Enqueue(() =>
             {
                 Global.PixelTexture = new Texture2D(Main.spriteBatch.GraphicsDevice, 4, 4);
@@ -69,16 +66,16 @@ namespace MSEnchant
 
             Global.DragEndSound = new SoundStyle("MSEnchant/Assets/DragEnd");
 
-            Global.TextBold = ModContent.Request<DynamicSpriteFont>("MSEnchant/Assets/simsun");
-            Global.TextRegular = ModContent.Request<DynamicSpriteFont>("MSEnchant/Assets/simsun-regular");
-
+            LoadCultureUISetting("en-US");
+            LoadCultureUISetting("zh-Hans");
+            
             Global.StarTexture = ModContent.Request<Texture2D>("MSEnchant/Assets/Item.Equip.Star.Star");
             Global.GrayStarTexture = ModContent.Request<Texture2D>("MSEnchant/Assets/Item.Equip.Star.Star0");
             Global.SuperiorStarTexture = ModContent.Request<Texture2D>("MSEnchant/Assets/Item.Equip.Star.Star1");
 
             ReadTooltipFrames();
 
-            Global.SuccessEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.successEffect", new[]
+            Global.SuccessEffect = new MSAnimationImage("enchantUI.successEffect", new[]
             {
                 new MSFrameData(60, -263, -40),
                 new MSFrameData(60, -217, -40),
@@ -103,7 +100,7 @@ namespace MSEnchant
                 Visible = false
             };
 
-            Global.DestroyEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.DestroyEffect", new[]
+            Global.DestroyEffect = new MSAnimationImage("enchantUI.DestroyEffect", new[]
             {
                 new MSFrameData(60, -263, -40),
                 new MSFrameData(60, -217, -40),
@@ -128,7 +125,7 @@ namespace MSEnchant
                 Visible = false
             };
 
-            Global.FailEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.failEffect", new[]
+            Global.FailEffect = new MSAnimationImage("enchantUI.failEffect", new[]
             {
                 new MSFrameData(60, -263, -40),
                 new MSFrameData(60, -217, -40),
@@ -155,6 +152,13 @@ namespace MSEnchant
 
             RegisterHotKeys();
             RegisterEffects();
+        }
+
+        protected void LoadCultureUISetting(string culture)
+        {
+            var bytes = ModContent.GetFileBytes($"MSEnchant/UI/Setting/{culture}.json");
+            var json = Encoding.UTF8.GetString(bytes);
+            Global.CultureUISettings[culture] = JsonConvert.DeserializeObject<UISetting>(json);
         }
 
         protected void RegisterHotKeys()

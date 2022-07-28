@@ -1,4 +1,5 @@
 ﻿using System;
+using Terraria.Localization;
 
 namespace MSEnchant.Models;
 
@@ -18,15 +19,12 @@ public class StarForceStatAttribute
     public string GetEquipTooltip(int baseValue)
     {
         baseValue = Math.Max(baseValue, 0);
-        return $"{Name} : {baseValue + Value:0} ({baseValue} +{Value:0})";
+        return Language.GetTextValue("Mods.MSEnchant.ItemTooltip.BonusAttribute_EquipToolTip", Name,
+            (baseValue + Value).ToString("0"), baseValue, Value.ToString("0"));
     }
 
-    public string EnchantTooltip => $"{Name} ： +{Value:0}";
+    public string EnchantTooltip => Language.GetTextValue("Mods.MSEnchant.ItemTooltip.BonusAttribute_EnchantToolTip", Name, Value.ToString("0"));
 
-    public string Name => Type switch
-    {
-        StarForceAttributeType.Damage => "攻击力",
-        StarForceAttributeType.Defense => "防御力"
-    };
+    public string Name => Language.GetTextValue($"Mods.MSEnchant.BonusAttribute.{Type}");
 
 }

@@ -1,0 +1,148 @@
+﻿Mods: {
+    MSEnchant: {
+        ItemName: {
+            StarItem: Star
+            StarForceScrollItem: Star Force Enhancement
+            StarForceScrollItem_Format: "Star Force {0}-Star Enhancement"
+            StarForce_TraceItem: "{0}'s Trace"
+        }
+        ItemTooltip: {
+            StarItem:
+                '''
+                可以为已消耗所有可升级次数的
+                装备注入星之力，提高星星等级。
+                '''
+            StarForceScrollItem:
+                '''
+                Reinforces an [c/FF9900:upgraded item] up to
+                the designated Star Force and
+                ignores the effect of Guardian
+                Scroll.
+                　
+                [c/FF9900:Cannot be used on equipment item]
+                [c/FF9900:s that have been enhanced up to hi]
+                [c/FF9900:gher Star Forces than the designat]
+                [c/FF9900:ed Star Force, equipment items that]
+                [c/FF9900:have lower max. enforcement Sta]
+                [c/FF9900:r Force than the designated Star F]
+                [c/FF9900:orce, and superior equipment.]
+                '''
+            StarForceScrollItem_SuccessRate: "Success Rate {0}%"
+            StarForceScrollItem_TargetStarLevelTips:
+                '''
+                {0} Star Enhancement for the upgra
+                ded item
+                '''
+            StarForce_TraceItem_TransmissionTips:
+                '''
+                
+                {0} can receive its potential stats
+                '''
+            BonusAttribute_EquipToolTip: "[c/66FFFF:{0} : {1}] [c/FFFFFF:({2}] [c/66FFFF:+{3}][c/FFFFFF:)]"
+            BonusAttribute_EnchantToolTip: "{0} : +{1}"
+        }
+        BonusAttribute: {
+            Damage: Damage
+            Defense: Defense
+        }
+        UIText: {
+            EndEnchant: End enhancement.
+            EndTransmission: Ending transfer.
+            MiniGame_StopStar: Stops the moving star where it's at.
+            HyperButton_Tooltip: Use stars to enhance equipment with no upgrades left.
+            TransmissionButton_Tooltip: Transferring potential from the Equipment Trace...
+            DisableMiniGameCheckBox_Tooltip:
+                '''
+                Star Force Enhancement will go more quickly with this disabled,
+                but you will not receive the Star Catching success rate bouns.
+                '''
+            UseProtectScrollCheckBox_Tooltip:
+                '''
+                From Star Force Enhancement levels 12 to 16, you may spend additional stars
+                to reduce the chance of item destruction to 0%.
+                (Excludes superior equipment items.)
+                '''
+            StartEnchantButton_Tooltip: Use stars to enhance equipment with no upgrades left.
+            CancelButton_Tooltip: Return to previous screen.
+            ProcessingActions:
+                '''
+                A system error has occurred.
+                Please try again later
+                '''
+            UnknownError: A system error has occurred.
+            EnchantResult_Success: Successfully enhanced.
+            EnchantResult_Downgrade:
+                '''
+                Enhancement failed!,
+                The enhancement level has dropped.
+                '''
+            EnchantResult_Destroy:
+                '''
+                Enhancement failed.
+                so the equipment was destroyed.
+                '''
+            EnchantResult_Failed: Enhancement failed.
+            EnchantPopup_MaxStars:
+                '''
+                Enhancement successful!
+                The equipment has reached its max level.
+                '''
+            StarFlag_Tooltip:
+                '''
+                达到了{0}星！即使星之力强化失败，强化阶段下
+                降，也不会降到{0}星以下。
+                '''
+            StarForceLevel: "{0} Star"
+            UnableFindStarForceSetting: 无法获取星之力配置，请稍后再试。
+            UncheckProtectPopup: Safeguard cannot be used and has been disabled.
+            ConfirmPopup_Content:
+                '''
+                {0} Star
+                {1}
+                Attempt the enhancement?
+                '''
+            ConfirmPopup_RiskBoth:
+                '''
+                If enhancement fails, the equipment may be
+                destroyed or the enhancement level may drop.
+                '''
+            ConfirmPopup_Destroy:
+                '''
+                Enhancement will be destroyed
+                 on enhancement failure.
+                '''
+            ConfirmPopup_Downgrade:
+                '''
+                Enhancement level will drop
+                 if the enhancement fails.
+                '''
+            DetailText_SuccessRate: "Success Chance: {0}%"
+            DetailText_KeepRate: "Failure (Keep) Chance: {0}%"
+            DetailText_DowngradeRate: "Failure (Drop) Chance: {0}%"
+            DetailText_DestroyRate: "Chance of item destruction: {0}%"
+            TransmissionStartButton_Tooltip: Transferring potential from Equipment Trace to equipment. The potential on the equipment will be completely replaced.
+            TransmissionPopup_Content:
+                '''
+                Do you want to use the Equipment Trace
+                to transfer equipment stats?
+                '''
+            TransmissionResult_Success: Transfer successful.
+            TransmissionResult_Failed: Transfer failed.
+            Transmission_EquipNotSame:
+                '''
+                Locked or sealed items cannot be
+                transferred
+                '''
+            InvalidItem: You may not use scrolls on this item.
+            StarScrollConsumeQuestion:
+                '''
+                You've selected the {0}.
+                
+                Do you want to use the {1} on it?
+                '''
+            ScrollResult_Success: "The {0} lights up, and its mysterious energies transfer to {1}."
+            ScrollResult_Failed: "The {0} lights up, but nothing happens to {1}."
+            EnchantButton_Tooltip: Enhance a piece of equipment.
+        }
+    }
+}

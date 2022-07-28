@@ -54,7 +54,7 @@ public abstract class MSWindow : MSElement
     
     protected void AddCloseButton(float left = 0f, float top = 4f, string tooltip = "")
     {
-        CloseButton = new MSButton("MSEnchant/Assets/buttonexit", left, top)
+        CloseButton = new MSButton("buttonexit", left, top)
         {
             Tooltip = tooltip
         };

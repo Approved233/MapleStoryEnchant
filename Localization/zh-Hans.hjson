@@ -1,0 +1,123 @@
+﻿Mods: {
+    MSEnchant: {
+        ItemName: {
+            StarItem: 星星
+            StarForceScrollItem: 星之力强化券
+            StarForceScrollItem_Format: "星之力{0}星强化券"
+            StarForce_TraceItem: "{0}的痕迹"
+        }
+        ItemTooltip: {
+            StarItem:
+                '''
+                可以为已消耗所有可升级次数的
+                装备注入星之力，提高星星等级。
+                '''
+            StarForceScrollItem:
+                '''
+                把[c/FF9900:已经完成升级的装备道具]的星
+                之力强化至指定数值，不会受到
+                复原之盾的效果影响。
+                　
+                [c/FF9900:无法用于已经强化至指定强化数]
+                [c/FF9900:值以上的装备、最高强化数值低]
+                [c/FF9900:于所指定的强化数值的装备、极]
+                [c/FF9900:真装备。]
+                '''
+            StarForceScrollItem_SuccessRate: 成功率{0}%
+            StarForceScrollItem_TargetStarLevelTips:
+                '''
+                升级后的道具的星之力将强化为
+                {0}星
+                '''
+            StarForce_TraceItem_TransmissionTips:
+                '''
+                
+                可以将能力继承到{0}上。
+                '''
+        }
+        BonusAttribute: {
+            Damage: 攻击力
+            Defense: 防御力
+        }
+        UIText: {
+            EndEnchant: 结束强化。
+            EndTransmission: 结束继承。
+            MiniGame_StopStar: 移动中的星星将留在当前位置。
+            HyperButton_Tooltip: 使用星星对已消耗所有可升级次数的装备进行强化。
+            TransmissionButton_Tooltip: 将装备痕迹具有的潜能继承到装备上。
+            DisableMiniGameCheckBox_Tooltip:
+                '''
+                解除时，可以更快地进行星之力强化，
+                但无法获得通过‘抓星星’获取的成功率提高效果。
+                '''
+            UseProtectScrollCheckBox_Tooltip:
+                '''
+                用星之力12星至16星之间的装备来尝试进行星之力强化时，
+                可额外消耗星星，令破坏率变为0%。
+                极真装备无法使用。
+                '''
+            StartEnchantButton_Tooltip: 使用星星，对升级次数全部耗尽的装备进行强化。
+            CancelButton_Tooltip: 回到初始画面。
+            ProcessingActions:
+                '''
+                正在处理别的请求。
+                请稍后再试。
+                '''
+            UnknownError: 发生未知错误。
+            EnchantResult_Success: 强化成功。
+            EnchantResult_Downgrade: 强化失败，强化阶段下降。
+            EnchantResult_Destroy: 强化失败，装备损坏。
+            EnchantResult_Failed: 强化失败。
+            EnchantPopup_MaxStars:
+                '''
+                强化成功了。
+                装备已达到强化上限，
+                无法继续强化。
+                '''
+            StarFlag_Tooltip:
+                '''
+                达到了{0}星！即使星之力强化失败，强化阶段下
+                降，也不会降到{0}星以下。
+                '''
+            StarForceLevel: "{0}星"
+            UnableFindStarForceSetting: 无法获取星之力配置，请稍后再试。
+            UncheckProtectPopup: 无法使用防损坏，已解除。
+            ConfirmPopup_Content:
+                '''
+                {0} 星星
+                {1}
+                是否进行强化？
+                '''
+            ConfirmPopup_RiskBoth:
+                '''
+                强化失败时，装备可能会损坏或
+                强化等级下降。
+                '''
+            ConfirmPopup_Destroy: 强化失败时，装备有可能破坏。
+            ConfirmPopup_Downgrade: 强化失败时，强化等级会下降。
+            DetailText_SuccessRate: "成功概率： {0}%"
+            DetailText_KeepRate: "失败(保持)概率： {0}%"
+            DetailText_DowngradeRate: "失败(下降)概率： {0}%"
+            DetailText_DestroyRate: "损坏概率： {0}%"
+            TransmissionStartButton_Tooltip: 将装备痕迹具有的潜能继承到装备上。装备上原有的潜能将会消失。
+            TransmissionPopup_Content:
+                '''
+                是否使用装备痕迹，
+                提高装备的能力？
+                '''
+            TransmissionResult_Success: 继承成功。
+            TransmissionResult_Failed: 继承失败。
+            Transmission_EquipNotSame:
+                '''
+                显示装备痕迹的装备和
+                继承能力的装备
+                必须一致，才能继承能力。
+                '''
+            InvalidItem: 无法使用卷轴的物品。
+            StarScrollConsumeQuestion: "你要在{0}上使用{1}吗？"
+            ScrollResult_Success: "{0}亮了一下，有一股神秘的力量传到了{1}上。"
+            ScrollResult_Failed: "{0}亮了一下，{1}没有任何变化"
+            EnchantButton_Tooltip: 强化道具。
+        }
+    }
+}

@@ -10,6 +10,7 @@ using MSEnchant.Models;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI.Chat;
@@ -246,7 +247,7 @@ public class MSEnchantItem : GlobalItem
 
     public StarForceTransmissionResult TryTransmission(Item targetItem, out Item beforeItem)
     {
-        beforeItem = Item?.Clone();
+        beforeItem = Item?.Clone() ?? new Item();
 
         if (Item.IsNullOrAir() || targetItem.type != Item!.type || !targetItem.IsItemValidInUIAction() ||
             !Item.IsItemValidInUIAction())
@@ -488,11 +489,11 @@ public class MSEnchantItem : GlobalItem
             var name = tooltips.FirstOrDefault(t => t.Mod == "Terraria" && t.Name is "ItemName");
             if (name != null)
             {
-                name.Text += "的痕迹";
+                name.Text = Language.GetTextValue("Mods.MSEnchant.ItemName.StarForce_TraceItem", name.Text);
                 name.OverrideColor = Color.Gray;
             }
 
-            tooltips.Add(new TooltipLine(Mod, "DestroyText", $"\n可以将能力继承到{item.Name}上。"));
+            tooltips.Add(new TooltipLine(Mod, "TransmissionTips", Language.GetTextValue("Mods.MSEnchant.ItemTooltip.StarForce_TraceItem_TransmissionTips", item.Name)));
         }
     }
 

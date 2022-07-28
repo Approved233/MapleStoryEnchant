@@ -102,7 +102,7 @@ public class WorldEffectAnimation
     public void AddFrame(MSFrameData frame)
     {
         var i = Frames.Count;
-        Frames[ModContent.Request<Texture2D>($"{BaseTexturePath}.{i}", AssetRequestMode.ImmediateLoad)] = frame;
+        Frames[$"{BaseTexturePath}.{i}".LoadLocaleTexture(AssetRequestMode.ImmediateLoad)] = frame;
     }
 
     public void SetFrames(MSFrameData[] frames)

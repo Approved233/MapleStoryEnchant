@@ -6,13 +6,14 @@ using MSEnchant.UI.Component;
 using MSEnchant.UI.Control;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Localization;
 using Terraria.UI;
 
 namespace MSEnchant.UI.Window;
 
 public class MiniGameWindow : MSWindow
 {
-    public override string BaseTexturePath => "MSEnchant/Assets/enchantUI.miniGame";
+    public override string BaseTexturePath => "enchantUI.miniGame";
 
     public override Type[] LinkWindowTypes => new[]
     {
@@ -83,20 +84,20 @@ public class MiniGameWindow : MSWindow
 
         Append(EnchantItemComponent = new MSItem(68, 68, 100, 80));
         
-        StartEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.miniGame.startEff",
+        StartEffect = new MSAnimationImage("enchantUI.miniGame.startEff",
             new[]
             {
-                new MSFrameData(150, 63, 88),
-                new MSFrameData(150, 59, 87),
-                new MSFrameData(150, 58, 87),
-                new MSFrameData(300, 77, 91),
-                new MSFrameData(150, 78, 91),
-                new MSFrameData(150, 78, 91)
+                new MSFrameData(150),
+                new MSFrameData(150),
+                new MSFrameData(150),
+                new MSFrameData(300),
+                new MSFrameData(150),
+                new MSFrameData(150)
             });
         StartEffect.OnAnimationEnded += element => { GameState = State.Catching; };
         Append(StartEffect);
 
-        TimeEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.miniGame.time", new[]
+        TimeEffect = new MSAnimationImage("enchantUI.miniGame.time", new[]
         {
             new MSFrameData(840, 109, 82),
             new MSFrameData(840, 102, 82),
@@ -111,7 +112,7 @@ public class MiniGameWindow : MSWindow
         TimeEffect.OnAnimationEnded += element => { GameState = State.End; };
         Append(TimeEffect);
 
-        StopEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.miniGame.stopEff", new[]
+        StopEffect = new MSAnimationImage("enchantUI.miniGame.stopEff", new[]
         {
             new MSFrameData(120, 54, 115),
             new MSFrameData(120, 55, 116),
@@ -126,39 +127,39 @@ public class MiniGameWindow : MSWindow
         StopEffect.OnAnimationEnded += element => { GameState = State.Close; };
         Append(StopEffect);
 
-        SuccessEffect = new MSAnimationImage("MSEnchant/Assets/enchantUI.miniGame.successEff", new[]
+        SuccessEffect = new MSAnimationImage("enchantUI.miniGame.successEff", new[]
         {
-            new MSFrameData(120, 44, 131),
-            new MSFrameData(120, 44, 121),
-            new MSFrameData(120, 44, 116),
-            new MSFrameData(120, 45, 113),
-            new MSFrameData(120, 46, 112),
-            new MSFrameData(120, 47, 114),
-            new MSFrameData(120, 52, 118),
+            new MSFrameData(120),
+            new MSFrameData(120),
+            new MSFrameData(120),
+            new MSFrameData(120),
+            new MSFrameData(120),
+            new MSFrameData(120),
+            new MSFrameData(120),
         })
         {
             Visible = false
         };
         Append(SuccessEffect);
 
-        GaugeBar = new MiniGameGaugeBar("MSEnchant/Assets/enchantUI.miniGame.gauge")
+        GaugeBar = new MiniGameGaugeBar("enchantUI.miniGame.gauge")
         {
             Center = new Vector2(130, 183)
         };
         Append(GaugeBar);
 
-        Star = new MiniGameStar("MSEnchant/Assets/enchantUI.miniGame.star.STAR",
-            "MSEnchant/Assets/enchantUI.miniGame.particle", 17, 192)
+        Star = new MiniGameStar("enchantUI.miniGame.star.STAR",
+            "enchantUI.miniGame.particle", 17, 192)
         {
             Visible = false
         };
         Append(Star);
 
-        StopButton = new MSButton("MSEnchant/Assets/enchantUI.miniGame.buttonstop", 85, 212)
+        StopButton = new MSButton("enchantUI.miniGame.buttonstop", 85, 212)
         {
             Disabled = true,
             ClickSound = "",
-            Tooltip = "移动中的星星将留在当前位置。"
+            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.MiniGame_StopStar")
         };
         StopButton.OnClick += (evt, element) =>
         {
