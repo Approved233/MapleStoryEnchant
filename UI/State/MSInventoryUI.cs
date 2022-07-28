@@ -22,10 +22,7 @@ public class MSInventoryUI : UIState
 
     public override void OnInitialize()
     {
-        Append(EnchantButton = new MSButton("Item.AutoBuild.buttonUpgrade", 570, 244)
-        {
-            Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.EnchantButton_Tooltip")
-        });
+        Append(EnchantButton = new MSButton("Item.AutoBuild.buttonUpgrade", 570, 244));
         EnchantButton.OnClick += (evt, element) =>
         {
             MSEnchantUI.Instance.EnableWindow<MainWindow>();
@@ -35,7 +32,9 @@ public class MSInventoryUI : UIState
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        
+
+        if (EnchantButton.Tooltip != Language.GetTextValue("Mods.MSEnchant.UIText.EnchantButton_Tooltip"))
+            EnchantButton.Tooltip = Language.GetTextValue("Mods.MSEnchant.UIText.EnchantButton_Tooltip");
         EnchantButton.Visible = Main.playerInventory && Main.LocalPlayer.chest == -1 && Main.npcShop == 0 || Main.recBigList;
     }
 

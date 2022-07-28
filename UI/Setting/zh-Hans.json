@@ -1,7 +1,7 @@
 {
   "font": {
-    "bold": "simsun",
-    "regular": "simsun-bold",
+    "bold": "simsun-bold",
+    "regular": "simsun",
     "requireFixHeight": true
   },
   "origins": {
