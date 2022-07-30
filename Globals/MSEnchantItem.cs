@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -171,12 +172,23 @@ public class MSEnchantItem : GlobalItem
         return CalculateBonusAttributes(0, StarForce);
     }
 
+    public void CopyTo(Item target)
+    {
+        var targetItem = target.GetEnchantItem();
+        if (targetItem == null)
+            return;
+
+        targetItem._starForce = StarForce;
+        targetItem.Destroyed = Destroyed;
+        targetItem.UpdateData();
+    }
+    
     public override GlobalItem Clone(Item from, Item to)
     {
         var clone = (MSEnchantItem)base.Clone(@from, to);
-        clone.StarForce = StarForce;
-        clone.BonusAttributes = BonusAttributes;
+        clone._starForce = StarForce;
         clone.Destroyed = Destroyed;
+        clone.TryInitData(to);
         return clone;
     }
 
@@ -189,8 +201,8 @@ public class MSEnchantItem : GlobalItem
 
     public override void SaveData(Item item, TagCompound tag)
     {
-        tag["StarForce"] = StarForce;
-        tag["Destroyed"] = Destroyed;
+        tag.Add("StarForce", StarForce);
+        tag.Add("Destroyed", Destroyed);
     }
 
     public override void NetSend(Item item, BinaryWriter writer)
@@ -402,6 +414,11 @@ public class MSEnchantItem : GlobalItem
         });
 
         return false;
+    }
+
+    public override void PostReforge(Item item)
+    {
+        CopyTo(item);
     }
 
     public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
