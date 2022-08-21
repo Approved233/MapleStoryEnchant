@@ -127,7 +127,7 @@ public class MSNotice : MSElement
         ContentText.MaxTextWidth = ContentTexture.Width() - TextPadding * 2;
 
         var contentTextSize = ContentText.PixelSize();
-        var countContentTexture = Math.Max(2, (int)Math.Ceiling(contentTextSize.Y / ContentTexture.Height()) + 1);
+        var countContentTexture = Math.Max(2, (int)Math.Ceiling(contentTextSize.Y / ContentTexture.Height()));
 
         ContentText.MarginLeft = ContentTexture.Width() / 2f;
         ContentText.MarginTop = offset.Y;

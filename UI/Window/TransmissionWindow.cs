@@ -337,7 +337,7 @@ public class TransmissionWindow : MSWindow
         if (msItem == null)
             return;
 
-        MSEnchantUI.Instance.ReplaceWindow<StarForceWindow>(this, window => { window.EnchantItem = TargetItem; });
+        State.ReplaceWindow<StarForceWindow>(this, window => { window.EnchantItem = TargetItem; });
     }
 
     public void SetItem(Item item)

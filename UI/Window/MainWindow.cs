@@ -38,11 +38,11 @@ public class MainWindow : MSWindow
 
             if (msItem.Destroyed || msItem.IsReachedMaxStarForce)
             {
-                MSEnchantUI.Instance.ReplaceWindow<TransmissionWindow>(this, window => { window.SetItem(item); });
+                State.ReplaceWindow<TransmissionWindow>(this, window => { window.SetItem(item); });
             }
             else
             {
-                MSEnchantUI.Instance.ReplaceWindow<StarForceWindow>(this, window => { window.EnchantItem = item; });
+                State.ReplaceWindow<StarForceWindow>(this, window => { window.EnchantItem = item; });
             }
         };
     }

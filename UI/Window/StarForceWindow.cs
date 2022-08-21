@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net.Repository.Hierarchy;
 using Microsoft.Xna.Framework;
 using MSEnchant.Helper;
 using MSEnchant.Items;
@@ -56,6 +57,9 @@ public class StarForceWindow : MSWindow
         get => EnchantSetting.Item;
         set
         {
+            if (EnchantSetting.Item == value)
+                return;
+            
             EnchantSetting.Item = value;
             UpdateEnchantItem();
         }
@@ -280,7 +284,7 @@ public class StarForceWindow : MSWindow
         if (msItem == null)
             return;
 
-        MSEnchantUI.Instance.ReplaceWindow<TransmissionWindow>(this, window => { window.SetItem(EnchantItem); });
+        State.ReplaceWindow<TransmissionWindow>(this, window => { window.SetItem(EnchantItem); });
     }
 
     protected bool StartEnchant(bool miniGameSuccess)
@@ -386,10 +390,10 @@ public class StarForceWindow : MSWindow
         var msItem = EnchantItem?.GetEnchantItem();
         if (msItem == null)
         {
-            if (State.IsWindowEnabled<MiniGameWindow>(out var window))
+            if (State.IsWindowEnabled<MiniGameWindow>(out var window) && window != this)
                 window.Close(true);
-            
-            MSEnchantUI.Instance.ReplaceWindow<MainWindow>(this);
+
+            State.ReplaceWindow<MainWindow>(this);
             return;
         }
 
