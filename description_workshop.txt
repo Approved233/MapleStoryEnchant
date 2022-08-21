@@ -107,6 +107,12 @@ Currently is made according to [b]China MapleStory[/b]
 
 [h2]ChangeLog[/h2]
 
+[h3]v1.0.1.2 (220821)[/h3]
+[list]
+[*] Compatible tModLoader v2022.7.58.9
+[*] 兼容 tModLoader v2022.7.58.9
+[/list]
+
 [h3]v1.0.1.0 (220728)[/h3]
 [list]
 [*] Locale support: en-US (without some text and main star force ui, because only CMS use star to enhance)
