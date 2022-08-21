@@ -1,0 +1,114 @@
+﻿[h2]Add Star Force enchant system from MapleStory to Terraria[/h2]
+
+Currently is made according to [b]China MapleStory[/b]
+
+[b]Item will increase attribute stats based on Star Force Level[/b]
+[list]
+[*] Weapon: Damage
+[*] Armor: Damage & Defense
+[*] Accessory: Defense
+[/list]
+
+[b]Feature[/b]
+[list]
+[*] [url=https://maplestory.nexon.net/micro-site/58999]Basic enchant system with UI[/url]
+[*] Transmission system
+[*] Star Force Enchancement Scroll
+[/list]
+
+[h3][b]Not compatible with extend accessory slot or armor slot by other mods![/b][/h3]
+
+[b]TODO[/b]
+[list]
+[*] Enchant setting on other MapleStory server
+[*] Transfer Hammer
+[*] Scroll
+[*] More item attributes
+[*] Localization
+[/list]
+
+[hr][/hr]
+
+[h2]将 冒险岛 内的 星之力强化 加入 Terraria[/h2]
+
+现在版本是按照 [b]CMS（国服冒险岛）[/b] 来进行制作。
+
+[b]道具会根据星之力增加属性[/b]
+[list]
+[*] 武器 增加 攻击力
+[*] 防具 增加 攻击力 & 防御力
+[*] 饰品 增加 防御力
+[/list]
+  
+[b]已实现功能[/b]
+[list]
+[*] [url=https://mxd.web.sdo.com/web6/gameinfo/items.asp]基础的星之力强化 + UI[/url]
+[*] 装备继承
+[*] 星之力强化券
+[/list]
+
+[h3][b]在其他模组中新增的 饰品栏位、装备栏位 将不会应用星之力属性！[/b][/h3]
+
+[b]未来可能会实现的內容[/b]
+[list]
+[*] 其他服务器的强化设置
+[*] 托德之锤
+[*] 卷轴
+[*] 其他道具属性
+[*] 多语言文本
+[/list]
+
+[hr][/hr]
+
+[h2]將 新楓之谷 內的 星力強化 加入 Terraria[/h2]
+
+現版本是按照 [b]CMS（陸服）[/b] 來進行製作。
+
+[b]道具會根據星力增加屬性：[/b]
+[list]
+[*] 武器 增加 攻擊力
+[*] 防具 增加 攻擊力 & 防禦力
+[*] 飾品 增加 防禦力
+[/list]
+
+[b]已實現功能[/b]
+[list]
+[*] [url=https://forum.gamer.com.tw/Co.php?bsn=07650&sn=5754377]基礎的星力強化系統 + UI[/url]
+[*] 裝備繼承
+[*] 星力強化券
+[/list]
+
+[h3][b]在其他模組中新增的 飾品槽位、裝備槽位 將不用應用星力屬性！[/b][/h3]
+
+[b]未來可能會製作的內容[/b]
+[list]
+[*] 其他伺服器的強化設定
+[*] 陶德的鐵鎚
+[*] 卷軸
+[*] 其他道具屬性
+[*] 多言語文本
+[/list]
+
+[hr][/hr]
+
+[h2]目前缺少的官方数据（CMS）[/h2]
+[list]
+[*] 160级 - 200级 星星消耗数
+[*] 20星-25星 星星消耗数量
+[/list]
+
+[h2]Missing Locale text (en-US)[/h2]
+[list]
+[*] Star flag tooltip (10+ / 15+ / 20+ star flag)
+[*] Star item description (Item only exists in CMS)
+[/list]
+
+[hr][/hr]
+
+[h2]ChangeLog[/h2]
+
+[h3]v1.0.1.0 (220728)[/h3]
+[list]
+[*] Locale support: en-US (without some text and main star force ui, because only CMS use star to enhance)
+[*] Bug Fixes & Performance Improvements
+[/list]

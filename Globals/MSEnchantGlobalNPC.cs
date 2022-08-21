@@ -96,11 +96,10 @@ public class MSEnchantGlobalNPC : GlobalNPC
             {
                 if (rule is not CommonDrop commonDropLoot)
                     continue;
-
+                
                 if (!ItemID.Sets.BossBag[commonDropLoot.itemId] &&
-                    ItemLoader.GetItem(commonDropLoot.itemId)?.BossBagNPC <= 0)
+                    (ItemLoader.GetItem(commonDropLoot.itemId)?.IsBossBag() ?? false))
                     continue;
-
 #if DEBUG
                 Global.Logger.Info($"Added StarForce scroll loot npc: {npc.FullName} value: {npc.value}");
 #endif

@@ -10,6 +10,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace MSEnchant.Helper;
 
@@ -122,5 +123,22 @@ public static class ItemHelper
             return ItemType.Accessory;
 
         return ItemType.Unknown;
+    }
+
+    private static PropertyInfo? bossBagNPCProperty = null;
+    
+    public static bool IsBossBag(this ModItem item)
+    {
+        if (bossBagNPCProperty == null)
+            bossBagNPCProperty = item.GetType().GetProperty("BossBagNPC", BindingFlags.Instance | BindingFlags.Public);
+
+        if (bossBagNPCProperty == null)
+            return false;
+        
+        var value = bossBagNPCProperty.GetValue(item);
+        if (value == null)
+            return false;
+
+        return (int)value > 0;
     }
 }
