@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
@@ -140,5 +141,13 @@ public static class ItemHelper
             return false;
 
         return (int)value > 0;
+    }
+
+    public static void UpdateStarForceAttributes(this IEnumerable<Item> items)
+    {
+        foreach (var item in items)
+        {
+            item.GetEnchantItem()?.UpdateData();
+        }
     }
 }

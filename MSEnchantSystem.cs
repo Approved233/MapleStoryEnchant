@@ -280,10 +280,12 @@ public class MSEnchantSystem : ModSystem
 
         foreach (var player in Main.player)
         {
-            foreach (var item in player.inventory)
-            {
-                item.GetEnchantItem()?.UpdateData();
-            }
+            player.bank.item.UpdateStarForceAttributes();
+            player.bank2.item.UpdateStarForceAttributes();
+            player.bank3.item.UpdateStarForceAttributes();
+            player.bank4.item.UpdateStarForceAttributes();
+            player.inventory.UpdateStarForceAttributes();
+            player.armor.UpdateStarForceAttributes();
         }
     }
 
