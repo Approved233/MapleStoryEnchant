@@ -78,7 +78,7 @@ Currently is made according to [b]China MapleStory[/b]
 [*] 星力強化券
 [/list]
 
-[h3][b]在其他模組中新增的 飾品槽位、裝備槽位 將不用應用星力屬性！[/b][/h3]
+[h3][b]在其他模組中新增的 飾品槽位、裝備槽位 將不會應用星力屬性！[/b][/h3]
 
 [b]未來可能會製作的內容[/b]
 [list]
@@ -107,10 +107,16 @@ Currently is made according to [b]China MapleStory[/b]
 
 [h2]ChangeLog[/h2]
 
-[h3]v1.0.1.2 (220821)[/h3]
+[h3]v1.0.1.8 (220823)[/h3]
 [list]
-[*] Compatible tModLoader v2022.7.58.9
+[*] Compatible with tModLoader v2022.7.58.9
+[*] Fixed enhance screen cannot return previous screen when click cancel button
+[*] Fixed equipment attribute values not correct after restart game
+[*] Fixed the drop data of Star Force Enhancement Scroll
 [*] 兼容 tModLoader v2022.7.58.9
+[*] 修正強化介面無法返回上級介面
+[*] 修正裝備欄裝備屬性在重啟遊戲後計算不正確的問題
+[*] 修正星之力強化券掉落數據不正常的問題
 [/list]
 
 [h3]v1.0.1.0 (220728)[/h3]

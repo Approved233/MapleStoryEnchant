@@ -38,8 +38,11 @@ public class MSEnchantGlobalNPC : GlobalNPC
         const int baseMaxStars = 22;
         var value = setting.Value;
 
-        var bonusMaxStars = (int)(value / 125000f);
-        var bonusMinStars = (int)(value / 625000f);
+        var min = Global.StarScrollLootSettings.First(s => s.Type == NPCID.KingSlime).Value;
+        var middle = Global.StarScrollLootSettings.First(s => s.Type == NPCID.WallofFlesh).Value;
+        
+        var bonusMaxStars = (int)(value / min);
+        var bonusMinStars = (int)(value / middle);
 
         var minStars = Math.Clamp(baseMinStars + bonusMinStars, baseMinStars, 15);
         var maxStars = Math.Min(minStars + bonusMaxStars, baseMaxStars);
@@ -59,13 +62,13 @@ public class MSEnchantGlobalNPC : GlobalNPC
         scrollItem.ScrollStarForce = Main.rand.Next(minStars, maxStars);
         scrollItem.SuccessRate = Math.Max(0.01, Main.rand.NextDouble());
 #if DEBUG
-        Global.Logger.Info($"Dropped Star Force Scroll from {npc.FullName} StarForce: {scrollItem.ScrollStarForce} SuccessRate: {scrollItem.SuccessRate * 100:0}");
+        Global.Logger.Info($"Dropped Star Force Scroll from {npc.FullName} StarForce: {scrollItem.ScrollStarForce} SuccessRate: {scrollItem.SuccessRate * 100:0} Range: {minStars}-{maxStars}");
 #endif
     }
 
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
-        if (!npc.boss)
+        if (!npc.boss || npc.value == 0)
             return;
 
         Global.UpdateScheduleQueue.Enqueue(() =>
@@ -97,8 +100,7 @@ public class MSEnchantGlobalNPC : GlobalNPC
                 if (rule is not CommonDrop commonDropLoot)
                     continue;
                 
-                if (!ItemID.Sets.BossBag[commonDropLoot.itemId] &&
-                    (ItemLoader.GetItem(commonDropLoot.itemId)?.IsBossBag() ?? false))
+                if (!ItemID.Sets.BossBag[commonDropLoot.itemId] && !ItemLoader.GetItem(commonDropLoot.itemId).IsBossBag())
                     continue;
 #if DEBUG
                 Global.Logger.Info($"Added StarForce scroll loot npc: {npc.FullName} value: {npc.value}");

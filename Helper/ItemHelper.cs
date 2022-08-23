@@ -128,19 +128,26 @@ public static class ItemHelper
 
     private static PropertyInfo? bossBagNPCProperty = null;
     
-    public static bool IsBossBag(this ModItem item)
+    public static bool IsBossBag(this ModItem? item)
     {
-        if (bossBagNPCProperty == null)
-            bossBagNPCProperty = item.GetType().GetProperty("BossBagNPC", BindingFlags.Instance | BindingFlags.Public);
-
-        if (bossBagNPCProperty == null)
-            return false;
-        
-        var value = bossBagNPCProperty.GetValue(item);
-        if (value == null)
+        if (item == null)
             return false;
 
-        return (int)value > 0;
+        if (bossBagNPCProperty == null)
+            bossBagNPCProperty = typeof(ModItem).GetProperty("BossBagNPC", BindingFlags.Instance | BindingFlags.Public);
+
+        if (bossBagNPCProperty != null)
+        {
+            var value = bossBagNPCProperty.GetValue(item);
+
+            if (value != null && (int)value > 0)
+                return true;
+        }
+
+        if (item.Item.consumable && item.Item.expert && item.GetType().GetMethod("ModifyItemLoot") != null && item.CanRightClick())
+            return true;
+
+        return false;
     }
 
     public static void UpdateStarForceAttributes(this IEnumerable<Item> items)
