@@ -135,6 +135,14 @@ public class MSEnchantUI : UIState
         return window;
     }
 
+    public void CleanElements()
+    {
+        lock (Elements)
+        {
+            Elements.Clear();
+        }
+    }
+    
     public void CloseWindow<T>() where T : MSWindow
     {
         foreach (var window in Children.Where(c => c is T).Cast<T>())

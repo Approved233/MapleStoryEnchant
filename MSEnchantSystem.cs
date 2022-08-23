@@ -43,6 +43,13 @@ public class MSEnchantSystem : ModSystem
         InventoryState = null;
     }
 
+    public override void PreSaveAndQuit()
+    {
+        if (Main.dedServ) return;
+
+        State.CleanElements();
+    }
+
     public override void PostSetupContent()
     {
         Global.UpdateScheduleQueue.Enqueue(LoadAttributeBonus);
