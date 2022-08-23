@@ -15,7 +15,11 @@ public class MSPopup : MSElement
     public string Content
     {
         get => MultiLineText.Content;
-        set => MultiLineText.Content = value;
+        set
+        {
+            MultiLineText.Content = value;
+            UpdateTextPosition();
+        }
     }
 
     protected string BaseTexturePath;
@@ -40,9 +44,23 @@ public class MSPopup : MSElement
         Append(MultiLineText = new MSMultiLineText(string.Empty, Width.Pixels / 2f, ContentTop));
 
         Content = content;
+    }
 
-        if (ContentTop == 0f)
-            MultiLineText.Top.Set(ContentHeight / 2 - MultiLineText.Height.Pixels / 2, 0f);
+    protected void UpdateTextPosition()
+    {
+        if (ContentTop != 0f)
+            return;
+
+        var vCenter = Height.Pixels / 2;
+        var textHeight = MultiLineText.Height.Pixels;
+        var top = vCenter;
+        
+        if (textHeight > ContentHeight / 2)
+            top -= textHeight / (vCenter / textHeight);
+        else
+            top -= textHeight;
+        
+        MultiLineText.Top.Set(top, 0f);
     }
 
     protected virtual void DoInit()

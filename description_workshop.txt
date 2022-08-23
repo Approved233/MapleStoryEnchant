@@ -107,16 +107,18 @@ Currently is made according to [b]China MapleStory[/b]
 
 [h2]ChangeLog[/h2]
 
-[h3]v1.0.1.8 (220823)[/h3]
+[h3]v1.0.1.9 (220823)[/h3]
 [list]
 [*] Compatible with tModLoader v2022.7.58.9
 [*] Fixed enhance screen cannot return previous screen when click cancel button
 [*] Fixed equipment attribute values not correct after restart game
 [*] Fixed the drop data of Star Force Enhancement Scroll
+[*] Fixed some bugs in UI
 [*] 兼容 tModLoader v2022.7.58.9
 [*] 修正強化介面無法返回上級介面
 [*] 修正裝備欄裝備屬性在重啟遊戲後計算不正確的問題
 [*] 修正星之力強化券掉落數據不正常的問題
+[*] 修正一些UI上的小錯誤
 [/list]
 
 [h3]v1.0.1.0 (220728)[/h3]
