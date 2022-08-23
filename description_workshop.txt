@@ -107,7 +107,7 @@ Currently is made according to [b]China MapleStory[/b]
 
 [h2]ChangeLog[/h2]
 
-[h3]v1.0.1.9 (220823)[/h3]
+[h3]v1.0.1.10 (220823)[/h3]
 [list]
 [*] Compatible with tModLoader v2022.7.58.9
 [*] Fixed enhance screen cannot return previous screen when click cancel button
