@@ -107,7 +107,15 @@ Currently is made according to [b]China MapleStory[/b]
 
 [h2]ChangeLog[/h2]
 
-[h3]v1.0.1.10 (220823)[/h3]
+[h3]v1.0.2.0 (220827)[/h3]
+[list]
+[*] Balance defense attribute
+[*] Bug Fixes & Performance Improvements
+[*] 平衡防禦力數值
+[*] 修復BUG & 提升性能
+[/list]
+
+[b]v1.0.1.10 (220823)[/b]
 [list]
 [*] Compatible with tModLoader v2022.7.58.9
 [*] Fixed enhance screen cannot return previous screen when click cancel button
@@ -121,7 +129,7 @@ Currently is made according to [b]China MapleStory[/b]
 [*] 修正一些UI上的小錯誤
 [/list]
 
-[h3]v1.0.1.0 (220728)[/h3]
+[b]v1.0.1.0 (220728)[/b]
 [list]
 [*] Locale support: en-US (without some text and main star force ui, because only CMS use star to enhance)
 [*] Bug Fixes & Performance Improvements
