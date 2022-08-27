@@ -17,8 +17,7 @@ public class MSEnchantGlobalNPC : GlobalNPC
 {
     public override void ModifyGlobalLoot(GlobalLoot globalLoot)
     {
-        var starItem = ModContent.GetInstance<StarItem>();
-        globalLoot.Add(new EnemyCommonDrop(starItem.Type, 100, 1, 20, 15));
+        globalLoot.Add(new EnemyCommonDrop(ModContent.ItemType<StarItem>(), 100, 1, 20, 15));
     }
 
     public override void OnKill(NPC npc)

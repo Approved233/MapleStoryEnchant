@@ -20,10 +20,10 @@ public class StarForceStatAttribute
     {
         baseValue = Math.Max(baseValue, 0);
         return Language.GetTextValue("Mods.MSEnchant.ItemTooltip.BonusAttribute_EquipToolTip", Name,
-            (baseValue + Value).ToString("0"), baseValue, Value.ToString("0"));
+            (baseValue + Value).ToString("0.#"), baseValue, Value.ToString("0.#"));
     }
 
-    public string EnchantTooltip => Language.GetTextValue("Mods.MSEnchant.ItemTooltip.BonusAttribute_EnchantToolTip", Name, Value.ToString("0"));
+    public string EnchantTooltip => Language.GetTextValue("Mods.MSEnchant.ItemTooltip.BonusAttribute_EnchantToolTip", Name, Value.ToString("0.#"));
 
     public string Name => Language.GetTextValue($"Mods.MSEnchant.BonusAttribute.{Type}");
 

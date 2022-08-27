@@ -79,12 +79,21 @@ public class MSEnchantItem : GlobalItem
         return setting;
     }
 
+    public int RarityModded
+    {
+        get
+        {
+            var rarity = Item.OriginalRarity;
+            if (Item.master || Item.expert)
+                rarity = (int)Math.Round(Item.GetStoreValue() / 75000.0);
+
+            return rarity;
+        }
+    }
+    
     public StarForceRareLevelSetting FindNearRareLevelSetting()
     {
-        var rarity = Item.OriginalRarity;
-        if (Item.master || Item.expert)
-            rarity = (int)Math.Round(Item.GetStoreValue() / 75000.0);
-
+        var rarity = RarityModded;
         var rare = Math.Clamp(rarity, Global.StarForceRareLevelSettings.Keys.Min(),
             Global.StarForceRareLevelSettings.Keys.Max());
 
@@ -117,10 +126,10 @@ public class MSEnchantItem : GlobalItem
         var type = ItemType;
         if (type == ItemType.Weapon || type == ItemType.Armor)
         {
-            var starDamage = 0;
+            double starDamage = 0;
             for (var i = min; i < max; i++)
             {
-                double bonus = 0;
+                double bonus;
                 if (i < 16)
                 {
                     if (type == ItemType.Weapon)
@@ -147,7 +156,7 @@ public class MSEnchantItem : GlobalItem
                         : Global.AttributeStatBonus[StarForceAttributeType.Damage];
                 }
 
-                starDamage += Math.Max((int)bonus, 1);
+                starDamage += Math.Max(bonus, 1);
             }
 
             attributes.Add(new StarForceStatAttribute(StarForceAttributeType.Damage, starDamage));
@@ -155,13 +164,35 @@ public class MSEnchantItem : GlobalItem
 
         if (type == ItemType.Armor || type == ItemType.Accessory)
         {
-            var starDefence = 0;
+            double starDefense = 0;
+            double defenseBasicFix;
+
+            if (type == ItemType.Armor)
+            {
+                if (Item.headSlot >= 0)
+                    defenseBasicFix = 3.0;
+                else if (Item.legSlot >= 0)
+                    defenseBasicFix = 4.0;
+                else
+                    defenseBasicFix = 6.0;
+            }
+            else
+                defenseBasicFix = 5.5;
+
             for (var i = min; i < max; i++)
             {
-                starDefence += Math.Max(1, (i + 1) / 4);
+                double bonus;
+                if (type == ItemType.Armor)
+                    bonus = -Math.Log(Item.OriginalDefense * 20.0 + starDefense - RarityModded * 5.0);
+                else
+                    bonus = -Math.Log((RarityModded / 6.25 + starDefense) / 2.5);
+
+                bonus /= Global.AttributeStatBonus[StarForceAttributeType.Defense];
+
+                starDefense += (i + 1) / (defenseBasicFix - bonus);
             }
 
-            attributes.Add(new StarForceStatAttribute(StarForceAttributeType.Defense, starDefence));
+            attributes.Add(new StarForceStatAttribute(StarForceAttributeType.Defense, starDefense));
         }
 
         return attributes.ToArray();
@@ -559,7 +590,7 @@ public class MSEnchantItem : GlobalItem
 
                 var halfStar = starsInline / 2f;
                 var halfStarDigit = MathF.Ceiling(Math.Abs((int)halfStar - halfStar));
-                var emptySlots = (starsInline / 5f) - 1;
+                var emptySlots = starsInline / 5f - 1;
 
                 if (halfStarDigit > 0f)
                     offset.X += halfStarDigit;

@@ -13,7 +13,7 @@ public class MSEnchantGlobalItem : GlobalItem
      {
          if (context is "bossBag" or "crate")
          {
-             var starItem = ModContent.GetInstance<StarItem>().Item;
+             var starItem = ModContent.GetInstance<StarItem>().Item.Clone();
              player.QuickSpawnItem(player.GetSource_OpenItem(type, context), starItem, Main.rand.Next(50, 300));
          }
      }

@@ -323,7 +323,10 @@ public class StarForceWindow : MSWindow
         {
             Processing = false;
             var afterItem = EnchantSetting.Item;
-            UpdateEnchantItem();
+            if (msItem.Destroyed || msItem.IsReachedMaxStarForce)
+                EnchantItem = null;
+            else
+                UpdateEnchantItem();
 
             var content = Language.GetTextValue($"Mods.MSEnchant.UIText.EnchantResult_{result}");
 
@@ -358,11 +361,9 @@ public class StarForceWindow : MSWindow
 
                 animation?.Stop();
 
-                if (msItem.Destroyed || msItem.IsReachedMaxStarForce)
+                if (msItem.IsReachedMaxStarForce)
                 {
-                    EnchantItem = null;
-                    if (!msItem.Destroyed)
-                        AlertPopup(Language.GetTextValue("Mods.MSEnchant.UIText.EnchantPopup_MaxStars"));
+                    AlertPopup(Language.GetTextValue("Mods.MSEnchant.UIText.EnchantPopup_MaxStars"));
                 }
             };
             State.ShowPopupCenter(popup);

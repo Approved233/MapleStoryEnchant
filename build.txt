@@ -1,5 +1,5 @@
 displayName = MapleStory Enchant
 author = Approved233
-version = 1.0.1.10
+version = 1.0.2.0
 hideCode = true
 hideResources = true
