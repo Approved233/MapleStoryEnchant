@@ -107,12 +107,14 @@ Currently is made according to [b]China MapleStory[/b]
 
 [h2]ChangeLog[/h2]
 
-[h3]v1.0.2.1 (220828)[/h3]
+[h3]v1.0.2.2 (220829)[/h3]
 [list]
 [*] Fixed the default position of window
+[*] Fixed star scroll cannot drop on multiplayer mode
 [*] Change the position of the enchant button
 [*] 修正UI窗口位置
 [*] 更改強化按鈕的位置
+[*] 修正多人模式下無法正常掉落星之力強化券的問題
 [/list]
 
 [b]v1.0.2.0 (220827)[/b]

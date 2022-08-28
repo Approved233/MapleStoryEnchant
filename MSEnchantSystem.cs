@@ -171,61 +171,66 @@ public class MSEnchantSystem : ModSystem
                 return;
             }
 
-            State.ShowNoticeYesNoCenter(Language.GetTextValue("Mods.MSEnchant.UIText.StarScrollConsumeQuestion", mouseItem.Name, scrollItemVanilla.Name), () =>
-            {
-                if (!Main.LocalPlayer.FindItemInInventory(scrollItemVanilla) ||
-                    !Main.LocalPlayer.FindItemInInventory(mouseItem))
+            State.ShowNoticeYesNoCenter(
+                Language.GetTextValue("Mods.MSEnchant.UIText.StarScrollConsumeQuestion", mouseItem.Name,
+                    scrollItemVanilla.Name), () =>
                 {
-                    State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.ProcessingActions"));
-                    return;
-                }
-
-                var result = scrollItem.ApplyTo(mouseItem);
-                if (result == StarForceScrollResult.NoResult)
-                {
-                    State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.InvalidItem"));
-                    return;
-                }
-
-                scrollItemVanilla.TurnToAir();
-
-                var sound = result switch
-                {
-                    StarForceScrollResult.Success => "MSEnchant/Assets/ScrollSuccess",
-                    StarForceScrollResult.Failed => "MSEnchant/Assets/ScrollFailure",
-                    _ => null
-                };
-
-                EffectType? effect = result switch
-                {
-                    StarForceScrollResult.Success => EffectType.ScrollSuccess,
-                    StarForceScrollResult.Failed => EffectType.ScrollFailure,
-                    _ => null
-                };
-
-                var hint = Language.GetTextValue($"Mods.MSEnchant.UIText.ScrollResult_{result}", scrollItemVanilla.Name, mouseItem.Name);
-
-                if (sound != null)
-                    SoundEngine.PlaySound(new SoundStyle(sound), Main.LocalPlayer.position);
-
-                if (effect != null)
-                {
-                    Main.LocalPlayer.PlayEffect(effect.Value);
-                    Global.Mod.SendPacket<RequestPlayEffectPacket>(PacketType.RequestPlayEffect, packet =>
+                    if (!Main.LocalPlayer.FindItemInInventory(scrollItemVanilla) ||
+                        !Main.LocalPlayer.FindItemInInventory(mouseItem))
                     {
-                        packet.Effect = effect.Value;
-                        packet.Sound = sound ?? string.Empty;
-                    });
-                }
+                        State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.ProcessingActions"));
+                        return;
+                    }
 
-                if (hint != null)
-                    Main.LocalPlayer.SendMessage($"[c/FFAAAA:{hint}]");
-            });
+                    var result = scrollItem.ApplyTo(mouseItem);
+                    if (result == StarForceScrollResult.NoResult)
+                    {
+                        State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.InvalidItem"));
+                        return;
+                    }
+
+                    scrollItemVanilla.TurnToAir();
+
+                    var sound = result switch
+                    {
+                        StarForceScrollResult.Success => "MSEnchant/Assets/ScrollSuccess",
+                        StarForceScrollResult.Failed => "MSEnchant/Assets/ScrollFailure",
+                        _ => null
+                    };
+
+                    EffectType? effect = result switch
+                    {
+                        StarForceScrollResult.Success => EffectType.ScrollSuccess,
+                        StarForceScrollResult.Failed => EffectType.ScrollFailure,
+                        _ => null
+                    };
+
+                    var hint = Language.GetTextValue($"Mods.MSEnchant.UIText.ScrollResult_{result}",
+                        scrollItemVanilla.Name, mouseItem.Name);
+
+                    if (sound != null)
+                        SoundEngine.PlaySound(new SoundStyle(sound), Main.LocalPlayer.position);
+
+                    if (effect != null)
+                    {
+                        if (Main.netMode == NetmodeID.SinglePlayer)
+                            Main.LocalPlayer.PlayEffect(effect.Value);
+                        Global.Mod.SendPacket<RequestPlayEffectPacket>(PacketType.RequestPlayEffect, packet =>
+                        {
+                            packet.Effect = effect.Value;
+                            packet.Sound = sound ?? string.Empty;
+                        });
+                    }
+
+                    if (hint != null)
+                        Main.LocalPlayer.SendMessage($"[c/FFAAAA:{hint}]");
+                });
         }
     }
 
     protected void LoadAttributeBonus()
     {
+        Global.Logger.Info("Calculating attribute bonus...");
         var vanillaWeaponDamages = new Dictionary<int, int>();
         var vanillaArmorDefenses = new Dictionary<int, int>();
 
@@ -285,6 +290,8 @@ public class MSEnchantSystem : ModSystem
                 CalculateBonus(vanillaArmorDefenses.Values, value, 0.2f);
         }
 
+        Global.Logger.Info("Attribute bonus calculate finished.");
+
         foreach (var player in Main.player)
         {
             player.bank.item.UpdateStarForceAttributes();
@@ -338,13 +345,16 @@ public class MSEnchantSystem : ModSystem
         return a;
     }
 
-    public override void PostUpdateEverything()
+    public override void PostUpdateTime()
     {
         while (Global.UpdateScheduleQueue.TryDequeue(out var action))
         {
             action.Invoke();
         }
+    }
 
+    public override void PostUpdateEverything()
+    {
         if (Main.dedServ)
             return;
 
