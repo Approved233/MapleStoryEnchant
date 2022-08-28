@@ -8,6 +8,7 @@ using MSEnchant.UI.Component;
 using MSEnchant.UI.Control;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameInput;
 using Terraria.UI;
 
 namespace MSEnchant.UI.State;
@@ -25,14 +26,7 @@ public class MSEnchantUI : UIState
         UserInterface.SetState(this);
     }
 
-    public Vector2 CenterOfScreen
-    {
-        get
-        {
-            var dimension = GetDimensions();
-            return new Vector2(dimension.Width / 2, dimension.Height / 2) / new Vector2(Main.UIScale);
-        }
-    }
+    public Vector2 CenterOfScreen => new Vector2(PlayerInput.RealScreenWidth / 2f, PlayerInput.RealScreenHeight / 2f) / new Vector2(Main.UIScale);
 
     public bool HasVisibleAlwaysTop
     {

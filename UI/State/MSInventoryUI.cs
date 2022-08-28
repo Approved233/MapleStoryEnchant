@@ -22,7 +22,7 @@ public class MSInventoryUI : UIState
 
     public override void OnInitialize()
     {
-        Append(EnchantButton = new MSButton("Item.AutoBuild.buttonUpgrade", 570, 244));
+        Append(EnchantButton = new MSButton("Item.AutoBuild.buttonUpgrade", 570, 278));
         EnchantButton.OnClick += (evt, element) =>
         {
             MSEnchantUI.Instance.EnableWindow<MainWindow>();
