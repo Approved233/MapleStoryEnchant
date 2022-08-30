@@ -48,6 +48,7 @@ namespace MSEnchant
             Global.EnableEnchantUIKey = null;
             Global.StarScrollLootSettings.Clear();
             Global.CultureUISettings.Clear();
+            Global.ItemGroupCache.Clear();
         }
 
         protected void LoadClientResources()

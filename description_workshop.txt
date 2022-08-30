@@ -107,14 +107,18 @@ Currently is made according to [b]China MapleStory[/b]
 
 [h2]ChangeLog[/h2]
 
-[h3]v1.0.2.2 (220829)[/h3]
+[h3]v1.0.2.3 (220830)[/h3]
 [list]
 [*] Fixed the default position of window
 [*] Fixed star scroll cannot drop on multiplayer mode
 [*] Change the position of the enchant button
+[*] Fixed cannot loot star item from certain mod's Boss Bag or Fishing Crate
+[*] Code optimization
 [*] 修正UI窗口位置
 [*] 更改強化按鈕的位置
 [*] 修正多人模式下無法正常掉落星之力強化券的問題
+[*] 修正無法從某些模組的寶藏袋、寶匣中獲得星星的問題
+[*] 優化代碼
 [/list]
 
 [b]v1.0.2.0 (220827)[/b]

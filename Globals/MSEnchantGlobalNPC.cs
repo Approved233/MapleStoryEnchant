@@ -45,17 +45,12 @@ public class MSEnchantGlobalNPC : GlobalNPC
 
         var minStars = Math.Clamp(baseMinStars + bonusMinStars, baseMinStars, 15);
         var maxStars = Math.Min(minStars + bonusMaxStars, baseMaxStars);
-
-        var scrollItem = ModContent.GetInstance<StarForceScrollItem>();
-
+        
         var index = Item.NewItem(npc.GetSource_Loot(),
-            new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), scrollItem.Type);
+            new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), ModContent.ItemType<StarForceScrollItem>());
         var item = Main.item.ElementAtOrDefault(index);
-        if (item == null)
-            return;
 
-        scrollItem = item.ModItem as StarForceScrollItem;
-        if (scrollItem == null)
+        if (item?.ModItem is not StarForceScrollItem scrollItem)
             return;
 
         scrollItem.ScrollStarForce = Main.rand.Next(minStars, maxStars);

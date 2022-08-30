@@ -114,7 +114,7 @@ public static class PlayerHelper
 
     public static bool CostItem<T>(this Player player, int num) where T : ModItem
     {
-        return CostItem(player, ModContent.GetInstance<T>().Type, num);
+        return CostItem(player, ModContent.ItemType<T>(), num);
     }
 
     public static bool CostItem(this Player player, int type, int num)

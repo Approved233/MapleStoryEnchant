@@ -1,13 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MSEnchant.Globals;
 using MSEnchant.Helper;
-using MSEnchant.Models;
-using MSEnchant.UI.State;
-using MSEnchant.UI.Window;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -16,10 +11,8 @@ using Terraria.ModLoader.IO;
 
 namespace MSEnchant.Items;
 
-public class StarForceScrollItem : ModItem
+public class StarForceScrollItem : BaseScrollItem
 {
-    public double SuccessRate = 1;
-
     private int _scrollStarForce;
 
     public int ScrollStarForce
@@ -34,92 +27,33 @@ public class StarForceScrollItem : ModItem
 
     public override string Texture => "MSEnchant/Assets/StarForceScroll";
 
-    public override bool AllowPrefix(int pre)
-    {
-        return false;
-    }
-
-    public override bool CanUseItem(Player player)
-    {
-        return false;
-    }
-
     public override bool CanStack(Item item2)
     {
         return false;
     }
 
-    public override bool CanStackInWorld(Item item2)
-    {
-        return false;
-    }
-
-    public override bool CanResearch()
-    {
-        return false;
-    }
-
-    private BlendState oldInventoryState;
-
-    public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor,
-        Color itemColor,
-        Vector2 origin, float scale)
-    {
-        spriteBatch.SetBlendState(BlendState.NonPremultiplied, out oldInventoryState);
-        return base.PreDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
-    }
-
-    public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame,
-        Color drawColor, Color itemColor,
-        Vector2 origin, float scale)
-    {
-        if (oldInventoryState != null)
-            spriteBatch.SetBlendState(oldInventoryState, out _);
-        base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
-    }
-
-    private BlendState oldWorldState;
-
-    public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation,
-        ref float scale,
-        int whoAmI)
-    {
-        spriteBatch.SetBlendState(BlendState.NonPremultiplied, out oldWorldState);
-        return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
-    }
-
-    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation,
-        float scale,
-        int whoAmI)
-    {
-        if (oldWorldState != null)
-            spriteBatch.SetBlendState(oldWorldState, out _);
-
-        base.PostDrawInWorld(spriteBatch, lightColor, alphaColor, rotation, scale, whoAmI);
-    }
-
     public override void LoadData(TagCompound tag)
     {
         ScrollStarForce = tag.GetInt("ScrollStarForce");
-        SuccessRate = tag.GetDouble("SuccessRate");
+        base.LoadData(tag);
     }
 
     public override void SaveData(TagCompound tag)
     {
         tag["ScrollStarForce"] = ScrollStarForce;
-        tag["SuccessRate"] = SuccessRate;
+        base.SaveData(tag);
     }
 
     public override void NetReceive(BinaryReader reader)
     {
         ScrollStarForce = reader.ReadInt32();
-        SuccessRate = reader.ReadDouble();
+        base.NetReceive(reader);
     }
 
     public override void NetSend(BinaryWriter writer)
     {
         writer.Write(ScrollStarForce);
-        writer.Write(SuccessRate);
+        base.NetSend(writer);
     }
 
     public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -151,7 +85,7 @@ public class StarForceScrollItem : ModItem
         Item.rare = ItemRarityID.Purple;
     }
 
-    public bool CanApplyTo(Item targetItem)
+    public override bool CanApplyTo(Item targetItem)
     {
         var msItem = targetItem.GetEnchantItem();
         if (msItem == null)
@@ -164,39 +98,10 @@ public class StarForceScrollItem : ModItem
         return true;
     }
 
-    public StarForceScrollResult ApplyResult(Item targetItem)
+    protected override void OnScrollSuccess(Item targetItem, MSEnchantItem msItem)
     {
-        var msItem = targetItem.GetEnchantItem();
-        if (msItem == null)
-            return StarForceScrollResult.NoResult;
-
-        if (!CanApplyTo(targetItem))
-            return StarForceScrollResult.NoResult;
-
-        if (Main.rand.NextDouble() >= SuccessRate)
-            return StarForceScrollResult.Failed;
-
-        return StarForceScrollResult.Success;
-    }
-
-    public StarForceScrollResult ApplyTo(Item targetItem)
-    {
-        var state = MSEnchantUI.Instance;
-        var r = ApplyResult(targetItem);
-        var msItem = targetItem.GetEnchantItem();
-        if (msItem == null)
-            return StarForceScrollResult.NoResult;
-
-        if (!CanApplyTo(targetItem))
-            return StarForceScrollResult.NoResult;
-
-        Item.TurnToAir();
-
-        if (Main.rand.NextDouble() >= SuccessRate)
-            return StarForceScrollResult.Failed;
-
         msItem.StarForce = ScrollStarForce;
         msItem.UpdateData();
-        return StarForceScrollResult.Success;
     }
+
 }

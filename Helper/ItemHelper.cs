@@ -144,10 +144,33 @@ public static class ItemHelper
                 return true;
         }
 
-        if (item.Item.consumable && item.Item.expert && item.GetType().GetMethod("ModifyItemLoot") != null && item.CanRightClick())
+        if (item.Item.consumable && item.Item.expert && item.GetType().GetMethod("ModifyItemLoot") != null && item.CanRightClick() && item.Item.GetItemGroup() == ContentSamples.CreativeHelper.ItemGroup.BossBags)
             return true;
 
         return false;
+    }
+
+    public static bool IsFishingCrate(this ModItem? item)
+    {
+        if (item == null)
+            return false;
+
+        if (!item.Item.consumable)
+            return false;
+
+        return item.GetType().GetMethod("ModifyItemLoot") != null && item.CanRightClick() &&
+               item.Item.GetItemGroup() == ContentSamples.CreativeHelper.ItemGroup.Crates;
+    }
+
+    public static ContentSamples.CreativeHelper.ItemGroup GetItemGroup(this Item item)
+    {
+        if (Global.ItemGroupCache.TryGetValue(item.type, out var group))
+            return group;
+        
+        group = ContentSamples.CreativeHelper.GetItemGroup(item, out _);
+        ItemLoader.ModifyResearchSorting(item, ref group);
+        Global.ItemGroupCache.Add(item.type, group);
+        return group;
     }
 
     public static void UpdateStarForceAttributes(this IEnumerable<Item> items)
@@ -157,4 +180,31 @@ public static class ItemHelper
             item.GetEnchantItem()?.UpdateData();
         }
     }
+
+    public static bool CostItem(this Item item, int num)
+    {
+        var stack = item.stack;
+        if (stack < num)
+            return false;
+        
+        if (stack > num)
+        {
+            item.stack -= num;
+            return true;
+        }
+
+        item.TurnToAir();
+        return true;
+    }
+
+    public static bool IsBossBag(this Item item)
+    {
+        return ItemID.Sets.BossBag[item.type] || item.ModItem.IsBossBag();
+    }
+
+    public static bool IsFishingCrate(this Item item)
+    {
+        return ItemID.Sets.IsFishingCrate[item.type] || item.ModItem.IsFishingCrate();
+    }
+    
 }

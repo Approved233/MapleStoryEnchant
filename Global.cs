@@ -48,6 +48,8 @@ public class Global
 
     public static readonly Dictionary<string, UISetting> CultureUISettings =
         new Dictionary<string, UISetting>();
+    
+    public static readonly Dictionary<int, ContentSamples.CreativeHelper.ItemGroup> ItemGroupCache = new();
 
     public static UISetting CurrentCultureUISetting
     {

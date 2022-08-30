@@ -125,7 +125,7 @@ public class MSEnchantSystem : ModSystem
             return;
         }
 
-        if (lastMouseItem.Value.Key.ModItem is StarForceScrollItem && lastScrollItem == null)
+        if (lastMouseItem.Value.Key.ModItem is BaseScrollItem && lastScrollItem == null)
         {
             lastScrollItem = new KeyValuePair<Item, int>(lastMouseItem.Value.Key, lastMouseItem.Value.Value);
         }
@@ -135,7 +135,7 @@ public class MSEnchantSystem : ModSystem
             var (scrollItemVanilla, scrollItemSlot) = lastScrollItem.Value;
             lastScrollItem = null;
 
-            if (scrollItemVanilla.ModItem is not StarForceScrollItem scrollItem)
+            if (scrollItemVanilla.ModItem is not BaseScrollItem scrollItem)
                 return;
 
             var (mouseItem, mouseItemSlot) = lastMouseItem.Value;
@@ -182,26 +182,24 @@ public class MSEnchantSystem : ModSystem
                         return;
                     }
 
-                    var result = scrollItem.ApplyTo(mouseItem);
-                    if (result == StarForceScrollResult.NoResult)
+                    var result = scrollItem.ApplyScroll(mouseItem);
+                    if (result == ScrollResult.NoResult)
                     {
                         State.ShowNoticeCenter(Language.GetTextValue("Mods.MSEnchant.UIText.InvalidItem"));
                         return;
                     }
 
-                    scrollItemVanilla.TurnToAir();
-
                     var sound = result switch
                     {
-                        StarForceScrollResult.Success => "MSEnchant/Assets/ScrollSuccess",
-                        StarForceScrollResult.Failed => "MSEnchant/Assets/ScrollFailure",
+                        ScrollResult.Success => "MSEnchant/Assets/ScrollSuccess",
+                        ScrollResult.Failed => "MSEnchant/Assets/ScrollFailure",
                         _ => null
                     };
 
                     EffectType? effect = result switch
                     {
-                        StarForceScrollResult.Success => EffectType.ScrollSuccess,
-                        StarForceScrollResult.Failed => EffectType.ScrollFailure,
+                        ScrollResult.Success => EffectType.ScrollSuccess,
+                        ScrollResult.Failed => EffectType.ScrollFailure,
                         _ => null
                     };
 

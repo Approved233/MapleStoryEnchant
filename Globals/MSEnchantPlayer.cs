@@ -33,8 +33,7 @@ public class MSEnchantPlayer : ModPlayer
 
     public override void AnglerQuestReward(float rareMultiplier, List<Item> rewardItems)
     {
-        var starItem = ModContent.GetInstance<StarItem>().Item.Clone();
-        starItem.stack = Main.rand.Next((int)(50 * rareMultiplier), (int)(300 * rareMultiplier));
+        var starItem = new Item(ModContent.ItemType<StarItem>(), Main.rand.Next((int)(50 * rareMultiplier), (int)(300 * rareMultiplier)));
         rewardItems.Add(starItem);
     }
 

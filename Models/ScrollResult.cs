@@ -1,6 +1,6 @@
 ﻿namespace MSEnchant.Models;
 
-public enum StarForceScrollResult
+public enum ScrollResult
 {
     NoResult,
     Success,
