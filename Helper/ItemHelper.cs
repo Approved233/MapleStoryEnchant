@@ -79,8 +79,10 @@ public static class ItemHelper
 
         var info = Activator.CreateInstance(drawTooltipMethod.GetParameters().First().ParameterType);
 
-        Main.HoverItem = item;
+        var beforeHover = Main.HoverItem;
+        Main.HoverItem = item.Clone();
         drawTooltipMethod.Invoke(Main.instance, new[] { info, 0, (byte)0, (int)mouse.X, (int)mouse.Y });
+        Main.HoverItem = beforeHover;
     }
 
     public static void DrawTooltipHackedQueue(this Item item)

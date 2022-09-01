@@ -200,7 +200,7 @@ public class MSEnchantItem : GlobalItem
 
     public StarForceStatAttribute[] GetStarForceBonusAttributes(int? level = null)
     {
-        return CalculateBonusAttributes(0, StarForce);
+        return CalculateBonusAttributes(0, level);
     }
 
     public void CopyTo(Item target)
@@ -272,7 +272,7 @@ public class MSEnchantItem : GlobalItem
 
     public void TryInitData(Item item)
     {
-        if (!Item.IsNullOrAir())
+        if (!Item.IsNullOrAir() && Item == item)
             return;
 
         Item = item;

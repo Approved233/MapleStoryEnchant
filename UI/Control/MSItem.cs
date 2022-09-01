@@ -21,7 +21,7 @@ public class MSItem : MSElement
         set
         {
             _displayItem = value;
-            Texture = value.IsNullOrAir() ? null : TextureAssets.Item[value.type].Value;
+            Texture = _displayItem.IsNullOrAir() ? null : TextureAssets.Item[_displayItem.type].Value;
         }
     }
 
