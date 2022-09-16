@@ -9,6 +9,7 @@ using MSEnchant.UI.Window;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -209,4 +210,16 @@ public static class ItemHelper
         return ItemID.Sets.IsFishingCrate[item.type] || item.ModItem.IsFishingCrate();
     }
     
+    public static void DropItemLocal(this Player player, IEntitySource source, Rectangle rectangle, int itemId, int stack = 1, Action<int>? onItemSpawn = null)
+    {
+        var index = Item.NewItem(source, rectangle, itemId, stack, noBroadcast: Main.netMode == NetmodeID.Server);
+        onItemSpawn?.Invoke(index);
+        if (Main.netMode == NetmodeID.Server)
+        {
+            Main.timeItemSlotCannotBeReusedFor[index] = 5000;
+            NetMessage.SendData(MessageID.InstancedItem, player.whoAmI, number: index);
+            Main.item[index].active = false;
+        } 
+    }
+
 }

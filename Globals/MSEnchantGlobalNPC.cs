@@ -29,10 +29,6 @@ public class MSEnchantGlobalNPC : GlobalNPC
         if (setting.Type == 0)
             return;
 
-        var chance = PlayerHelper.RollNearPlayersLuck(npc.position, 100 * 1000);
-        if (chance > 10 * 1000)
-            return;
-
         const int baseMinStars = 5;
         const int baseMaxStars = 22;
         var value = setting.Value;
@@ -45,19 +41,48 @@ public class MSEnchantGlobalNPC : GlobalNPC
 
         var minStars = Math.Clamp(baseMinStars + bonusMinStars, baseMinStars, 15);
         var maxStars = Math.Min(minStars + bonusMaxStars, baseMaxStars);
-        
-        var index = Item.NewItem(npc.GetSource_Loot(),
-            new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), ModContent.ItemType<StarForceScrollItem>());
-        var item = Main.item.ElementAtOrDefault(index);
 
-        if (item?.ModItem is not StarForceScrollItem scrollItem)
-            return;
+        RollStarScrollDropPerInteraction(npc, minStars, maxStars);
 
-        scrollItem.ScrollStarForce = Main.rand.Next(minStars, maxStars);
-        scrollItem.SuccessRate = Math.Max(0.01, Main.rand.NextDouble());
 #if DEBUG
         Global.Logger.Info($"Dropped Star Force Scroll from {npc.FullName} StarForce: {scrollItem.ScrollStarForce} SuccessRate: {scrollItem.SuccessRate * 100:0} Range: {minStars}-{maxStars}");
 #endif
+    }
+
+    protected void RollStarScrollDropPerInteraction(NPC npc, int min, int max)
+    {
+        if (Main.netMode == NetmodeID.Server)
+        {
+            for (var remoteClient = 0; remoteClient < byte.MaxValue; ++remoteClient)
+            {
+                if (Main.player[remoteClient].active && npc.playerInteraction[remoteClient])
+                    RollStarScrollDrop(Main.player[remoteClient], npc, min, max);
+            }
+        }
+        else
+        {
+            RollStarScrollDrop(Main.LocalPlayer, npc, min, max);
+        }
+    }
+
+    protected void RollStarScrollDrop(Player player, NPC npc, int min, int max)
+    {
+        var chance = player.RollLuck(100 * 1000);
+        if (chance > 10 * 1000)
+            return;
+
+        player.DropItemLocal(npc.GetSource_Loot(),
+            new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height),
+            ModContent.ItemType<StarForceScrollItem>(), onItemSpawn:
+            index =>
+            {
+                var item = Main.item.ElementAtOrDefault(index);
+                if (item?.ModItem is not StarForceScrollItem scrollItem)
+                    return;
+                
+                scrollItem.ScrollStarForce = Main.rand.Next(min, max);
+                scrollItem.SuccessRate = Math.Clamp(Main.rand.NextDouble(), 0.01, 1);
+            });
     }
 
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
